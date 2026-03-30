@@ -3,6 +3,10 @@ html, body {
 	padding: 0;
 }
 
+*[aria-expended=false] {
+	display: none;
+}
+
 .wrapper {
 	display: flex;
 	flex-direction: column;
@@ -20,10 +24,16 @@ html, body {
 	min-width: calc(100vw - 150px);
 	margin-right: auto;
 	margin-left: auto;
+	padding: 10px 0;
+}
+
+.row {
+	flex-direction: row
 }
 
 .navbar {
 	display: flex;
+	flex-direction: column;
 	position: relative;
 	flex-wrap: nowrap;
     justify-content: flex-start;
@@ -36,4 +46,41 @@ html, body {
 	font-weight: 600;
 	letter-spacing: normal;
 	line-height: 20px
+}
+
+.btn {
+	text-decoration: none;
+	color: rgb(55, 65, 81);
+	border: 1px solid #e5e7eb;
+	padding: 0.5625rem 1rem;
+	border-radius: 6px;
+	box-shadow: rgba(31, 41, 55, 0.06) 0px 1px 1px 0px;
+}
+
+.block {
+	color: rgb(55, 65, 81);
+	border: 1px solid #e5e7eb;
+	padding: 0.5625rem 1rem;
+	border-radius: 6px;
+	box-shadow: rgba(31, 41, 55, 0.06) 0px 1px 1px 0px;
+}
+
+.dropdown-menu {
+	position: absolute;
+	z-index: 1030;
+	right: 0;
+	top: 100%;
+	left: auto;
+	margin-top: 8px;
+	background-color: white;
+	color: rgb(55, 65, 81);
+	border: 1px solid #e5e7eb;
+	padding: 0.5625rem 1rem;
+	border-radius: 4px;
+	box-shadow: rgba(31, 41, 55, 0.06) 0px 1px 1px 0px;
+}
+
+.dropdown-item {
+	text-decoration: none;
+	color: rgb(55, 65, 81);
 }

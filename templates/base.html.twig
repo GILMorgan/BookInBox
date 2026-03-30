@@ -9,6 +9,7 @@
         {% block stylesheets %}
         {% endblock %}
 
+		<script src="{{ asset('js/main.js') }}"></script>
         {% block javascripts %}
         {% endblock %}
 
@@ -22,12 +23,26 @@
     <body>
 		<div class="wrapper">
 			<header class="navbar">
-				<div class="container">
+				<div class="container row">
 					<div class="brand">Book In Box</div>
+					<div class="items">
+						<div class="loggin">
+							{% if is_granted('ROLE_USER') is same as true %}
+								<a data-toggle="dropdown-menu">{{ app.user.email }}</a>
+								<div class="dropdown-menu" aria-expended="false">
+									<a href="{{ path(name = "app_logout") }}" class="dropdown-item">Déconnection</a>
+								</div>
+							{% else %}
+							<a href="{{ path(name = "app_login") }}" class="btn">
+								Connexion
+							</a>
+							{% endif %}
+						</div>
+					</div>
 				</div>
 			</header>
 
-			<div class="page">
+			<div class="container">
 		        {% block body %}{% endblock %}
 			</div>	
 		</div>	
