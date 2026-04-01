@@ -4,3 +4,19 @@
 	Gestion des utilisateurs
 {% endblock %}
 
+{% block body %}
+	<table>
+		<thead>
+			<th>Email</th>
+			<th></th>
+		</thead>
+		</tbody>
+			{% for user in users %}
+			<tr>
+				<td>{{ user.email }}</td>
+				<td>actions...</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}
