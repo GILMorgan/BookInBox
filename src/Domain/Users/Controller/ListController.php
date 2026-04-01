@@ -11,7 +11,7 @@ final class ListController
 	{
 	}
 
-	public function getAllUser(User $user): array
+	public function getAllUsers(User $user): array
 	{
 		if (in_array("ADMIN", $user->roles)) {
 			return $this->userProvider->getAll();

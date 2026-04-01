@@ -18,7 +18,7 @@ class ListControllerTest extends TestCase
 		$userProvider = Mockery::mock(UserProviderInterface::class);
 
 		$listController = new ListController($userProvider);
-		$users = $listController->getAllUser($user);
+		$users = $listController->getAllUsers($user);
 
 		$this->assertCount(1, $users);
 		$this->assertSame($user, current($users));
@@ -33,7 +33,7 @@ class ListControllerTest extends TestCase
 		$userProvider->shouldReceive("getAll")->andReturn(array_fill(0, 5, $user));
 
 		$listController = new ListController($userProvider);
-		$users = $listController->getAllUser($user);
+		$users = $listController->getAllUsers($user);
 
 		$this->assertCount(5, $users);
 	}

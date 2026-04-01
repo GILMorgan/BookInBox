@@ -2,14 +2,18 @@
 
 namespace App\Controller\Users;
 
+use App\Services\Users\CurrentUser;
+use App\Domain\Users\Controller\ListController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Bundle\SecurityBundle\Security;
 
 final class AdminUserController extends AbstractController
 {
-	public function __construct(private readonly Security $security)
+	public function __construct(
+		private readonly CurrentUser $currentUser,
+		private readonly ListController $listController 
+	)
 	{
 	}
 
@@ -18,7 +22,9 @@ final class AdminUserController extends AbstractController
 	{
 		return $this->render(
 			"users/admin/list.html.twig",
-			[]
+			[
+				"users" => $this->listController->getAllUsers($this->currentUser->getUser()),
+			]
 		);	
 	}
 }
