@@ -11,6 +11,6 @@ final class WelcomeController extends AbstractController
     #[Route('/', name: 'app_welcome')]
     public function index(): Response
     {
-		return $this->render("welcome.html.twig");
+        return $this->render("welcome.html.twig");
     }
 }

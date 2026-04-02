@@ -10,21 +10,20 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class AdminUserController extends AbstractController
 {
-	public function __construct(
-		private readonly CurrentUser $currentUser,
-		private readonly ListController $listController 
-	)
-	{
-	}
+    public function __construct(
+        private readonly CurrentUser $currentUser,
+        private readonly ListController $listController 
+    ) {
+    }
 
-	#[Route('/admin/user', name: 'app_admin_user')]
-	public function index(): Response
-	{
-		return $this->render(
-			"users/admin/list.html.twig",
-			[
-				"users" => $this->listController->getAllUsers($this->currentUser->getUser()),
-			]
-		);	
-	}
+    #[Route('/admin/user', name: 'app_admin_user')]
+    public function index(): Response
+    {
+        return $this->render(
+            "users/admin/list.html.twig",
+            [
+            "users" => $this->listController->getAllUsers($this->currentUser->getUser()),
+            ]
+        );    
+    }
 }
