@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Providers\UserProvider;
 use App\Repository\UserRepository;
 use App\Services\Users\UserSerializer;
+use tests\Domain\Users\UserFactory;
 use PHPUnit\Framework\TestCase;
 use Mockery;
 
@@ -29,5 +30,55 @@ class UserProviderTest extends TestCase
 		$users = $userProvider->getAll();
 
 		$this->assertCount(10, $users);
+	}
+
+	public function testGetByEmail()
+	{
+		$user = new User();
+		$user
+			->setId("1254-ffbf-45524-11578")
+			->setEmail("test@bookinbox.com")
+		;
+
+		$userRepository = Mockery::mock(UserRepository::class);
+		$userRepository->shouldReceive("findOnebyEmail")->andReturn($user);
+
+		$userProvider = new UserProvider(
+			$userRepository,
+			new UserSerializer()
+		);
+		$users = $userProvider->getByEmail("test@bookinbox.com");
+
+		$this->assertSame("test@bookinbox.com", $users->email);
+	}
+
+	public function testGetByEmailNotFound()
+	{
+		$userRepository = Mockery::mock(UserRepository::class);
+		$userRepository->shouldReceive("findOnebyEmail")->andReturn($user);
+
+		$userProvider = new UserProvider(
+			$userRepository,
+			new UserSerializer()
+		);
+		$users = $userProvider->getByEmail("test@bookinbox.com");
+
+		$this->assertNull($users);
+	}
+
+	public function testSave()
+	{
+		$user = UserFactory::getUser();	
+
+		$userRepository = Mockery::mock(UserRepository::class);
+		$userRepository->shouldReceive("save")->andReturnArg(0);
+
+		$userProvider = new UserProvider(
+			$userRepository,
+			new UserSerializer()
+		);
+		$userSaved = $userProvider->save($user);
+
+		$this->assertSame($userSaved, $user);
 	}
 }

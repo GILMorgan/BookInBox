@@ -20,9 +20,29 @@ final class UserSerializer
 		return $dto;
 	}
 
+	public function toEntity(UserDto $dto): UserEntity
+	{
+		$entity = new UserEntity();
+		$entity
+			->setId($dto->id)
+			->setEmail($dto->email)
+			->setRoles(array_map(
+				[$this, "unformatRole"],
+				$dto->roles
+			))
+		;
+
+		return $entity;
+	}
+
 	private function formatRole(string $role): string
 	{
 		return preg_replace("/ROLE_/", "", $role);
+	}
+
+	private function unformatRole(string $role): string
+	{
+		return "ROLE_" . $role;
 	}
 }
 

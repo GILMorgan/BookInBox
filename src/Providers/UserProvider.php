@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Domain\Users\DTO\User;
 use App\Domain\Users\Contract\UserProviderInterface;
 use App\Repository\UserRepository;
 use App\Services\Users\UserSerializer;
@@ -22,5 +23,23 @@ final class UserProvider implements UserProviderInterface
 			},
 			$this->userRepository->findAll(),
 		);
+	}
+
+	public function getByEmail(string $email): ?User
+	{
+		if ($user = $this->userRepository->findOneByEmail($email)) {
+			return $this->userSerializer->toDto($user);
+		}
+
+		return null;
+	}
+
+	public function save(User $user): User
+	{
+		$entity = $this->userSerializer->toEntity($user);
+
+		$this->userRepository->save($entity);
+
+		return $user;
 	}
 }

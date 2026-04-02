@@ -5,15 +5,16 @@ namespace tests\Domain\Users\Controller;
 use App\Domain\Users\DTO\User;
 use App\Domain\Users\Controller\ListController;
 use App\Domain\Users\Contract\UserProviderInterface;
+use tests\Domain\Users\UserFactory;
 use PHPUnit\Framework\TestCase;
 use Mockery;
+
 
 class ListControllerTest extends TestCase
 {
 	public function testSimpleUser()
 	{
-		$user = new User();
-		$user->roles = ['USER'];
+		$user = UserFactory::getUser();
 
 		$userProvider = Mockery::mock(UserProviderInterface::class);
 
@@ -26,8 +27,7 @@ class ListControllerTest extends TestCase
 
 	public function testAdminUser()
 	{
-		$user = new User();
-		$user->roles = ['USER', 'ADMIN'];
+		$user = UserFactory::getAdmin();
 
 		$userProvider = Mockery::mock(UserProviderInterface::class);
 		$userProvider->shouldReceive("getAll")->andReturn(array_fill(0, 5, $user));

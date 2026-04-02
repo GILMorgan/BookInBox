@@ -5,16 +5,29 @@
 {% endblock %}
 
 {% block body %}
+	<div class="reverse-row">
+		<a class="btn btn-icon">
+			<img src="/icon/add-user.png">
+		</a>
+	</div>	
 	<table>
 		<thead>
 			<th>Email</th>
-			<th></th>
+			<th>
+			</th>
 		</thead>
 		</tbody>
 			{% for user in users %}
 			<tr>
 				<td>{{ user.email }}</td>
-				<td>actions...</td>
+				<td>
+					<a class="btn btn-icon">
+						<img src="/icon/edit.png">
+					</a>
+					<a class="btn btn-icon">
+						<img src="/icon/delete-profile.png">
+					</a>
+				</td>
 			</tr>
 			{% endfor %}
 		</tbody>

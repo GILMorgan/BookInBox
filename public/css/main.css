@@ -28,7 +28,13 @@ html, body {
 }
 
 .row {
+	display: flex;
 	flex-direction: row
+}
+
+.reverse-row {
+	display: flex;
+	flex-direction: row-reverse;
 }
 
 .navbar {
@@ -49,12 +55,23 @@ html, body {
 }
 
 .btn {
+	display: inline-block;
+	position: relative;
 	text-decoration: none;
 	color: rgb(55, 65, 81);
 	border: 1px solid #e5e7eb;
 	padding: 0.5625rem 1rem;
 	border-radius: 6px;
 	box-shadow: rgba(31, 41, 55, 0.06) 0px 1px 1px 0px;
+}
+
+.btn-icon {
+	padding: 3px;
+}
+
+.btn-icon img{
+	position: relative;
+	height: 32px;
 }
 
 .block {
@@ -90,3 +107,6 @@ html, body {
 	color: rgb(55, 65, 81);
 }
 
+table thead th {
+	text-align: left;
+}
