@@ -4,6 +4,8 @@ namespace App\Controller\Users;
 
 use App\Services\Users\CurrentUser;
 use App\Domain\Users\Controller\ListController;
+use App\Domain\Users\DTO\User;
+use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -22,8 +24,21 @@ final class AdminUserController extends AbstractController
         return $this->render(
             "users/admin/list.html.twig",
             [
-            "users" => $this->listController->getAllUsers($this->currentUser->getUser()),
+                "users" => $this->listController->getAllUsers($this->currentUser->getUser()),
             ]
         );    
+    }
+   
+    #[Route('/admin/user/add', name: 'app_admin_user_add')]
+    public function add(): Response
+    {
+        $form = $this->createForm(UserType::class, new User());
+
+        return $this->render(
+            "users/admin/add.html.twig",
+            [
+                "userForm" => $form
+            ]
+        );
     }
 }
