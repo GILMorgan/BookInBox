@@ -8,6 +8,7 @@ use App\Domain\Users\DTO\User;
 use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class AdminUserController extends AbstractController
@@ -30,9 +31,14 @@ final class AdminUserController extends AbstractController
     }
    
     #[Route('/admin/user/add', name: 'app_admin_user_add')]
-    public function add(): Response
+    public function add(Request $request): Response
     {
         $form = $this->createForm(UserType::class, new User());
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            dd($form->getData());
+        }
 
         return $this->render(
             "users/admin/add.html.twig",
