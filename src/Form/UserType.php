@@ -41,20 +41,22 @@ class UserType extends AbstractType
 
         $builder
             ->get('roles')
-            ->addModelTransformer(new CallbackTransformer(
-                function($arrayRoles) {
-                    if ($arrayRoles && in_array('ADMIN', $arrayRoles)) {
-                        return "ADMIN";
-                    }
-                    return "USER";
-                },
-                function($stringRoles) {
-                    if ($stringRoles === "ADMIN") {
-                        return ['ADMIN', 'USER'];
-                    }
-                    return ['USER'];
-                }    
-            ));
+            ->addModelTransformer(
+                new CallbackTransformer(
+                    function ($arrayRoles) {
+                        if ($arrayRoles && in_array('ADMIN', $arrayRoles)) {
+                            return "ADMIN";
+                        }
+                        return "USER";
+                    },
+                    function ($stringRoles) {
+                        if ($stringRoles === "ADMIN") {
+                            return ['ADMIN', 'USER'];
+                        }
+                        return ['USER'];
+                    }    
+                )
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
