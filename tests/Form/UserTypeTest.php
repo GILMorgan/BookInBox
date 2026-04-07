@@ -24,6 +24,7 @@ class UserTypeTest extends TypeTestCase
         $this->assertTrue($form->isSynchronized());
         $this->assertSame("newUser@bookinbox.com", $user->email);
         $this->assertSame(["ADMIN", "USER"], $user->roles);
+        $this->assertSame("motdepasse", $user->password);
     }
 
     public function testSubmitValidUserData()
@@ -42,5 +43,6 @@ class UserTypeTest extends TypeTestCase
         $this->assertTrue($form->isSynchronized());
         $this->assertSame("newUser@bookinbox.com", $user->email);
         $this->assertSame(["USER"], $user->roles);
+        $this->assertSame("motdepasse", $user->password);
     }
 }

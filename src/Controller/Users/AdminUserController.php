@@ -3,6 +3,7 @@
 namespace App\Controller\Users;
 
 use App\Services\Users\CurrentUser;
+use App\Domain\Users\Controller\AddController;
 use App\Domain\Users\Controller\ListController;
 use App\Domain\Users\DTO\User;
 use App\Form\UserType;
@@ -10,12 +11,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Uid\Uuid;
 
 final class AdminUserController extends AbstractController
 {
     public function __construct(
         private readonly CurrentUser $currentUser,
-        private readonly ListController $listController 
+        private readonly ListController $listController,
+        private readonly AddController $addController,
     ) {
     }
 
@@ -37,7 +40,14 @@ final class AdminUserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            dd($form->getData());
+            $id = (string) Uuid::v4();
+            $user = $form->getData();
+            $user->id = $id;
+
+            $this->addController->addUser(
+                $this->currentUser->getUser(),
+                $user
+            );    
         }
 
         return $this->render(

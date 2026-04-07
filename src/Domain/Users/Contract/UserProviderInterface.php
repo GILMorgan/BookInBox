@@ -8,5 +8,6 @@ interface UserProviderInterface
 {
     public function getAll(): array;
     public function getByEmail(string $email): ?User;
-    public function save(User $user): User;
+    public function add(User $user): User;
+    public function update(User $user): User;
 }

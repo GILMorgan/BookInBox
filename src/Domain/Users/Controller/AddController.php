@@ -23,7 +23,7 @@ class AddController
             throw new AllReadyExistException("This email is allready used by another user");
         }
 
-        $this->userProvider->save($newUser);
+        $this->userProvider->add($newUser);
 
         return true;
     }

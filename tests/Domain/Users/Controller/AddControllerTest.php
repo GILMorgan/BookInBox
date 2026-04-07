@@ -48,7 +48,7 @@ class AddControllerTest extends TestCase
 		$newUser = UserFactory::getUser();
 
 		$userProvider->shouldReceive("getByEmail")->andReturnNull();
-		$userProvider->shouldReceive("save")->andReturnArg(0);
+		$userProvider->shouldReceive("add")->andReturnArg(0);
 
 		$addController = new AddController($userProvider);
 

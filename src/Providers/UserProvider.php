@@ -6,12 +6,14 @@ use App\Domain\Users\DTO\User;
 use App\Domain\Users\Contract\UserProviderInterface;
 use App\Repository\UserRepository;
 use App\Services\Users\UserSerializer;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class UserProvider implements UserProviderInterface
 {
     public function __construct(
         private readonly UserRepository $userRepository,
-        private readonly UserSerializer $userSerializer
+        private readonly UserSerializer $userSerializer,
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
     ) {
     }
 
@@ -34,11 +36,23 @@ final class UserProvider implements UserProviderInterface
         return null;
     }
 
-    public function save(User $user): User
+    public function add(User $user): User
     {
         $entity = $this->userSerializer->toEntity($user);
+        $hashedPassword = $this->userPasswordHasher->hashPassword(
+            $entity,
+            $user->password
+        );
+        $entity->setPassword($hashedPassword);
 
         $this->userRepository->save($entity);
+
+        return $user;
+    }
+
+    public function update(User $user): User
+    {
+        throw new \Exception("Not implemented yet");
 
         return $user;
     }

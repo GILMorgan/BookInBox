@@ -20,9 +20,6 @@ class UserType extends AbstractType
             ->add(
                 'password',
                 PasswordType::class,
-                [
-                  'mapped' => false,
-                ]
             )   
             ->add(
                 'roles',

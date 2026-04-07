@@ -7,6 +7,7 @@ use App\Providers\UserProvider;
 use App\Repository\UserRepository;
 use App\Services\Users\UserSerializer;
 use tests\Domain\Users\UserFactory;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use PHPUnit\Framework\TestCase;
 use Mockery;
 
@@ -22,11 +23,13 @@ class UserProviderTest extends TestCase
 		;
 
 		$userRepository = Mockery::mock(UserRepository::class);
-		$userRepository->shouldReceive("findAll")->andReturn(array_fill(0, 10, $user));
+        $userRepository->shouldReceive("findAll")->andReturn(array_fill(0, 10, $user));
+        $userPasswordHasher = Mockery::mock(UserPasswordHasherInterface::class);
 
 		$userProvider = new UserProvider(
 			$userRepository,
-			new UserSerializer()
+            new UserSerializer(),
+            $userPasswordHasher,
 		);
 		$users = $userProvider->getAll();
 
@@ -44,11 +47,13 @@ class UserProviderTest extends TestCase
 
 		$userRepository = Mockery::mock(UserRepository::class);
 		$userRepository->shouldReceive("findOnebyEmail")->andReturn($user);
+        $userPasswordHasher = Mockery::mock(UserPasswordHasherInterface::class);
 
 		$userProvider = new UserProvider(
 			$userRepository,
-			new UserSerializer()
-		);
+			new UserSerializer(),
+	        $userPasswordHasher,
+	    );
 		$users = $userProvider->getByEmail("test@bookinbox.com");
 
 		$this->assertSame("test@bookinbox.com", $users->email);
@@ -58,28 +63,33 @@ class UserProviderTest extends TestCase
 	{
 		$userRepository = Mockery::mock(UserRepository::class);
 		$userRepository->shouldReceive("findOnebyEmail")->andReturn($user);
+        $userPasswordHasher = Mockery::mock(UserPasswordHasherInterface::class);
 
 		$userProvider = new UserProvider(
-			$userRepository,
-			new UserSerializer()
-		);
+            $userRepository,
+			new UserSerializer(),
+	        $userPasswordHasher,
+	    );
 		$users = $userProvider->getByEmail("test@bookinbox.com");
 
 		$this->assertNull($users);
 	}
 
-	public function testSave()
+	public function testAdd()
 	{
 		$user = UserFactory::getUser();	
 
 		$userRepository = Mockery::mock(UserRepository::class);
 		$userRepository->shouldReceive("save")->andReturnArg(0);
+        $userPasswordHasher = Mockery::mock(UserPasswordHasherInterface::class);
+        $userPasswordHasher->shouldReceive("hashPassword")->andReturn("hashedPassword");
 
 		$userProvider = new UserProvider(
 			$userRepository,
-			new UserSerializer()
+            new UserSerializer(),
+            $userPasswordHasher,
 		);
-		$userSaved = $userProvider->save($user);
+		$userSaved = $userProvider->add($user);
 
 		$this->assertSame($userSaved, $user);
 	}
