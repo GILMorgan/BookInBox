@@ -31,6 +31,5 @@ class AdminUserControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/admin/user/add');
 
         $this->assertResponseIsSuccessful();
-
     }
 }

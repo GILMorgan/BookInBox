@@ -33,8 +33,7 @@ final class UserSerializer
                     $dto->roles
                 )
             )
-            ->setPassword($dto->password)
-        ;
+            ->setPassword($dto->password);
 
         return $entity;
     }
