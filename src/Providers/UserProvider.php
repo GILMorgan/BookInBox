@@ -27,6 +27,15 @@ final class UserProvider implements UserProviderInterface
         );
     }
 
+    public function get(string $id): ?User
+    {
+        if ($user = $this->userRepository->find($id)) {
+            return $this->userSerializer->toDto($user);
+        }
+
+        return null;
+    }
+
     public function getByEmail(string $email): ?User
     {
         if ($user = $this->userRepository->findOneByEmail($email)) {

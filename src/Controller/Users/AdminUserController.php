@@ -4,15 +4,17 @@ namespace App\Controller\Users;
 
 use App\Services\Users\CurrentUser;
 use App\Domain\Users\Controller\AddController;
+use App\Domain\Users\Controller\DeleteController;
 use App\Domain\Users\Controller\ListController;
 use App\Domain\Users\DTO\User;
+use App\Domain\Users\Contract\UserProviderInterface;
 use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class AdminUserController extends AbstractController
 {
@@ -20,6 +22,8 @@ final class AdminUserController extends AbstractController
         private readonly CurrentUser $currentUser,
         private readonly ListController $listController,
         private readonly AddController $addController,
+        private readonly DeleteController $deleteController,
+        private readonly UserProviderInterface $userProvider,
     ) {
     }
 
@@ -46,6 +50,7 @@ final class AdminUserController extends AbstractController
             $id = (string) Uuid::v4();
             $user = $form->getData();
             $user->id = $id;
+            $user->isDeleted = false;
 
             $this->addController->addUser(
                 $this->currentUser->getUser(),
@@ -61,5 +66,19 @@ final class AdminUserController extends AbstractController
                 "userForm" => $form
             ]
         );
+    }
+
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/admin/user/delete/{userId}', name: 'app_admin_user_delete')]
+    public function delete(string $userId): Response
+    {
+        $user = $this->userProvider->get($userId);
+
+        $this->deleteController->deleteUser(
+            $this->currentUser->getUser(),
+            $user
+        );    
+
+        return $this->redirectToRoute("app_admin_user");
     }
 }
