@@ -7,4 +7,5 @@ final class User
     public string $id;
     public string $email;
     public array $roles;
+    public string $password;
 }

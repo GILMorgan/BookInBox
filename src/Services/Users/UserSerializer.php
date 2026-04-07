@@ -16,6 +16,7 @@ final class UserSerializer
             [$this, "formatRole"],
             $entity->getRoles()
         );
+        $dto->password = $entity->getPassword();
 
         return $dto;
     }
@@ -31,7 +32,9 @@ final class UserSerializer
                     [$this, "unformatRole"],
                     $dto->roles
                 )
-            );
+            )
+            ->setPassword($dto->password)
+        ;
 
         return $entity;
     }

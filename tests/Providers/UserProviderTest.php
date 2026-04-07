@@ -16,8 +16,9 @@ class UserProviderTest extends TestCase
 	{
 		$user = new User();
 		$user
-			->setId("1254-ffbf-45524-11578")
-			->setEmail("test@bookinbox.com")
+            ->setId("1254-ffbf-45524-11578")
+            ->setEmail("test@bookinbox.com")
+            ->setPassword("test")
 		;
 
 		$userRepository = Mockery::mock(UserRepository::class);
@@ -37,7 +38,8 @@ class UserProviderTest extends TestCase
 		$user = new User();
 		$user
 			->setId("1254-ffbf-45524-11578")
-			->setEmail("test@bookinbox.com")
+            ->setEmail("test@bookinbox.com")
+            ->setPassword("test")
 		;
 
 		$userRepository = Mockery::mock(UserRepository::class);

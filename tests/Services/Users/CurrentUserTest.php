@@ -17,7 +17,8 @@ class CurrentUserTest extends TestCase
 		$userEntity
 			->setId("1254-4eaf-1548-ffff")
 			->setEmail("test@bookingbox.local")
-			->setRoles(["ROLE_ADMIN"])
+            ->setRoles(["ROLE_ADMIN"])
+            ->setPassword("test")
 		;
 
 		$security = Mockery::mock(Security::class);

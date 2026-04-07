@@ -15,7 +15,8 @@ class UserSerializerTest extends TestCase
 		$userEntity
 			->setId("1254-4eaf-1548-ffff")
 			->setEmail("test@bookingbox.local")
-			->setRoles(["ROLE_ADMIN"])
+            ->setRoles(["ROLE_ADMIN"])
+            ->setPassword("test")
 		;
 
 		$userSerializer = new UserSerializer();
@@ -24,7 +25,8 @@ class UserSerializerTest extends TestCase
 
 		$this->assertSame("1254-4eaf-1548-ffff", $dto->id);
 		$this->assertSame("test@bookingbox.local", $dto->email);
-		$this->assertSame(["ADMIN", "USER"], $dto->roles);
+        $this->assertSame(["ADMIN", "USER"], $dto->roles);
+        $this->assertSame("test", $dto->password);
 	}
 
 	public function testToEntity()
@@ -37,7 +39,7 @@ class UserSerializerTest extends TestCase
 
 		$this->assertSame("1254-4eaf-1548-ffff", $userEntity->getId());
 		$this->assertSame("user@bookinbox.com", $userEntity->getEmail());
-		$this->assertSame(["ROLE_USER"], $userEntity->getRoles());
-
+        $this->assertSame(["ROLE_USER"], $userEntity->getRoles());
+        $this->assertSame("user", $userEntity->getPassword());
 	}
 }
