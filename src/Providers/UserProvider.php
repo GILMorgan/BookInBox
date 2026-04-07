@@ -27,6 +27,15 @@ final class UserProvider implements UserProviderInterface
         );
     }
 
+    public function get(string $id): ?User
+    {
+        if ($user = $this->userRepository->find($id)) {
+            return $this->userSerializer->toDto($user);
+        }
+
+        return null;
+    }
+
     public function getByEmail(string $email): ?User
     {
         if ($user = $this->userRepository->findOneByEmail($email)) {
@@ -53,6 +62,19 @@ final class UserProvider implements UserProviderInterface
     public function update(User $user): User
     {
         throw new \Exception("Not implemented yet");
+
+        return $user;
+    }
+
+    /**
+     * Not a real delete but a soft delete only
+     */ 
+    public function delete(User $user): User
+    {
+        $entity = $this->userRepository->find($user->id);
+        $entity->setDeleted(true);
+
+        $this->userRepository->save($entity);
 
         return $user;
     }

@@ -13,6 +13,7 @@ class UserFactory
 		$user->roles = ['USER'];
         $user->email = "user@bookinbox.com";
         $user->password = "user";
+        $user->isDeleted = false;
 
 		return $user;
 	}
@@ -24,6 +25,7 @@ class UserFactory
 		$user->roles = ['USER', 'ADMIN'];
         $user->email = "admin@bookinbox.com";
         $user->password = "admin";
+        $user->isDeleted = false;
 
 		return $user;
 	}

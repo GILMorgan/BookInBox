@@ -36,7 +36,8 @@ class UserFixtures extends Fixture
         $user
             ->setId((string) Uuid::v4())
             ->setEmail("admin@bookinbox.com")
-            ->setRoles(["ROLE_USER", "ROLE_ADMIN"]);
+            ->setRoles(["ROLE_USER", "ROLE_ADMIN"])
+            ->setDeleted(false);
 
         $hashedPassword = $this->userPasswordHasher->hashPassword(
             $user,
@@ -53,7 +54,8 @@ class UserFixtures extends Fixture
         $user
             ->setId((string) Uuid::v4())
             ->setEmail("user_" . $number . "@bookinbox.com")
-            ->setRoles(["ROLE_USER"]);
+            ->setRoles(["ROLE_USER"])
+            ->setDeleted(false);
 
         $hashedPassword = $this->userPasswordHasher->hashPassword(
             $user,
@@ -62,6 +64,5 @@ class UserFixtures extends Fixture
         $user->setPassword($hashedPassword);
 
         return $user;
-
     }
 }

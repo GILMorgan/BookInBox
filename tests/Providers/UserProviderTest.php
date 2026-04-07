@@ -20,6 +20,7 @@ class UserProviderTest extends TestCase
             ->setId("1254-ffbf-45524-11578")
             ->setEmail("test@bookinbox.com")
             ->setPassword("test")
+            ->setDeleted(false)
 		;
 
 		$userRepository = Mockery::mock(UserRepository::class);
@@ -43,6 +44,7 @@ class UserProviderTest extends TestCase
 			->setId("1254-ffbf-45524-11578")
             ->setEmail("test@bookinbox.com")
             ->setPassword("test")
+            ->setDeleted(false)
 		;
 
 		$userRepository = Mockery::mock(UserRepository::class);
@@ -92,5 +94,25 @@ class UserProviderTest extends TestCase
 		$userSaved = $userProvider->add($user);
 
 		$this->assertSame($userSaved, $user);
-	}
+    }
+
+    public function testDelete()
+    {
+        $user = UserFactory::getUser();	
+
+        $userRepository = Mockery::mock(UserRepository::class);
+        $userRepository->shouldReceive("find")->andReturn(new User());
+        $userRepository->shouldReceive("save")->andReturnArg(0);
+
+        $userPasswordHasher = Mockery::mock(UserPasswordHasherInterface::class);
+
+		$userProvider = new UserProvider(
+			$userRepository,
+            new UserSerializer(),
+            $userPasswordHasher,
+		);
+		$userDeleted = $userProvider->delete($user);
+
+		$this->assertSame($userDeleted, $user);
+    }
 }
