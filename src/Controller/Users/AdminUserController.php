@@ -48,6 +48,8 @@ final class AdminUserController extends AbstractController
                 $this->currentUser->getUser(),
                 $user
             );    
+
+            return $this->redirectToRoute("app_admin_user");
         }
 
         return $this->render(
