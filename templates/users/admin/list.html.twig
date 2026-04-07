@@ -24,9 +24,11 @@
 					<a class="btn btn-icon">
 						<img src="/icon/edit.png">
 					</a>
+                    {% if not user.isDeleted %}
 					<a href="{{ path('app_admin_user_delete', {userId: user.id}) }}" class="btn btn-icon">
 						<img src="/icon/delete-profile.png">
 					</a>
+                    {% endif %}
 				</td>
 			</tr>
 			{% endfor %}
