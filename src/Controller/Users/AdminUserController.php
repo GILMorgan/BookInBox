@@ -10,6 +10,7 @@ use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Uid\Uuid;
 
@@ -22,6 +23,7 @@ final class AdminUserController extends AbstractController
     ) {
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/admin/user', name: 'app_admin_user')]
     public function index(): Response
     {
@@ -32,7 +34,8 @@ final class AdminUserController extends AbstractController
             ]
         );    
     }
-   
+
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/admin/user/add', name: 'app_admin_user_add')]
     public function add(Request $request): Response
     {
