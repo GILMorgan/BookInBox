@@ -17,6 +17,7 @@ final class UserSerializer
             $entity->getRoles()
         );
         $dto->password = $entity->getPassword();
+        $dto->isDeleted = $entity->isDeleted();
 
         return $dto;
     }
@@ -33,7 +34,8 @@ final class UserSerializer
                     $dto->roles
                 )
             )
-            ->setPassword($dto->password);
+            ->setPassword($dto->password)
+            ->setDeleted($dto->isDeleted);
 
         return $entity;
     }

@@ -56,4 +56,17 @@ final class UserProvider implements UserProviderInterface
 
         return $user;
     }
+
+    /**
+     * Not a real delete but a soft delete only
+     */ 
+    public function delete(User $user): User
+    {
+        $entity = $this->userRepository->find($user->id);
+        $entity->setDeleted(true);
+
+        $this->userRepository->save($entity);
+
+        return $user;
+    }
 }

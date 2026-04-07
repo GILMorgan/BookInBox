@@ -10,4 +10,5 @@ interface UserProviderInterface
     public function getByEmail(string $email): ?User;
     public function add(User $user): User;
     public function update(User $user): User;
+    public function delete(User $user): User;
 }

@@ -50,7 +50,8 @@ class BookinboxUserCreateCommand extends Command
         $user
             ->setId((string) Uuid::v4())
             ->setEmail($email)
-            ->setRoles($roles);
+            ->setRoles($roles)
+            ->setDeleted(false);
 
         $hashedPassword = $this->userPasswordHasher->hashPassword(
             $user,

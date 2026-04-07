@@ -19,6 +19,7 @@ class CurrentUserTest extends TestCase
 			->setEmail("test@bookingbox.local")
             ->setRoles(["ROLE_ADMIN"])
             ->setPassword("test")
+            ->setDeleted(false)
 		;
 
 		$security = Mockery::mock(Security::class);

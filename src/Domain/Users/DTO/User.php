@@ -8,4 +8,5 @@ final class User
     public string $email;
     public array $roles;
     public string $password;
+    public bool $isDeleted;
 }
