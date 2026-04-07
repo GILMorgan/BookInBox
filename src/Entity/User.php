@@ -34,14 +34,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getId(): string
     {
         return $this->id;
-	}
+    }
 
-	public function setId(string $id): static
-	{
-		$this->id = $id;
+    public function setId(string $id): static
+    {
+        $this->id = $id;
 
-		return $this;
-	}
+        return $this;
+    }
 
     public function getEmail(): string
     {

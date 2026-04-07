@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Gestion des utilisateurs
+{% endblock %}
+
+{% block body %}
+	<div class="reverse-row">
+		<a href="{{ path('app_admin_user_add') }}" class="btn btn-icon">
+			<img src="/icon/add-user.png">
+		</a>
+	</div>	
+	<table>
+		<thead>
+			<th>Email</th>
+			<th>
+			</th>
+		</thead>
+		</tbody>
+			{% for user in users %}
+			<tr>
+				<td>{{ user.email }}</td>
+				<td>
+					<a class="btn btn-icon">
+						<img src="/icon/edit.png">
+					</a>
+					<a class="btn btn-icon">
+						<img src="/icon/delete-profile.png">
+					</a>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

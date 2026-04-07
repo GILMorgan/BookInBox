@@ -20,48 +20,45 @@ use Symfony\Component\Uid\Uuid;
 )]
 class BookinboxUserCreateCommand extends Command
 {
-	public function __construct(
-		private readonly UserPasswordHasherInterface $userPasswordHasher,
-		private readonly UserRepository $userRepository
-	)
-    {
+    public function __construct(
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
+        private readonly UserRepository $userRepository
+    ) {
         parent::__construct();
     }
 
     protected function configure(): void
     {
         $this
-			->addArgument('email', InputArgument::REQUIRED, 'User email')
-			->addArgument('password', InputArgument::REQUIRED, 'User password')
-			->addArgument('role', InputArgument::OPTIONAL, 'role, by default ROLE_USER')
-        ;
+            ->addArgument('email', InputArgument::REQUIRED, 'User email')
+            ->addArgument('password', InputArgument::REQUIRED, 'User password')
+            ->addArgument('role', InputArgument::OPTIONAL, 'role, by default ROLE_USER');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-		$email = $input->getArgument('email');
-		$password = $input->getArgument('password');
-		$roles = ["ROLE_USER"];
+        $email = $input->getArgument('email');
+        $password = $input->getArgument('password');
+        $roles = ["ROLE_USER"];
 
-		if ($role = $input->getArgument('role')) {
-			$roles[] = $role;
-		}
+        if ($role = $input->getArgument('role')) {
+            $roles[] = $role;
+        }
 
-		$user = new User();
-		$user
-			->setId((string) Uuid::v4())
-			->setEmail($email)
-			->setRoles($roles)
-		;
+        $user = new User();
+        $user
+            ->setId((string) Uuid::v4())
+            ->setEmail($email)
+            ->setRoles($roles);
 
-		$hashedPassword = $this->userPasswordHasher->hashPassword(
+        $hashedPassword = $this->userPasswordHasher->hashPassword(
             $user,
             $password
         );
         $user->setPassword($hashedPassword);
 
-		$this->userRepository->save($user);
+        $this->userRepository->save($user);
 
         $io->success('The user as been successfully created.');
 
