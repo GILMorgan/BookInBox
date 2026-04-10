@@ -36,9 +36,8 @@ class AuthorSerializerTest extends TestCase
         $dto = $authorSerializer->toDto($entity);
 
         $this->assertSame("1547-dfcc-45d78-fe733", $dto->id);
-        $this->assertSame("Bob the writer", $entity->name);
+        $this->assertSame("Bob the writer", $dto->name);
         $this->assertSame("25/12/1978", $dto->birthDate);
         $this->assertSame("goodReadId", $dto->goodreadId);
-
     }
 }

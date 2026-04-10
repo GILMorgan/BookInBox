@@ -25,6 +25,7 @@ class AuthorSerializer
         $author->id = $entity->getId();
         $author->birthDate = $entity->getBirthDate();
         $author->goodreadId = $entity->getGoodreadId();
+        $author->name = $entity->getName();
 
         return $author;
     }
