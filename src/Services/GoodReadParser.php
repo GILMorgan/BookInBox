@@ -3,12 +3,15 @@
 namespace App\Services;
 
 use App\Domain\Books\DTO\Book;
+use Symfony\Component\Uid\Uuid;
 
 class GoodReadParser
 {
     public function parse(string $filepath): Book
     {
         $book = new Book();
+        $book->id = (string )Uuid::v4();
+        $book->openlibraryId = "";
 
         $book = $this->extractJson($filepath, $book);
         $book = $this->getEditionDetails($filepath, $book);
@@ -67,10 +70,9 @@ class GoodReadParser
             $role = $xpath->query("./span[@data-testid='role']", $contributor);
 
             if (!count($role)) {
-                //faire le remplacement par le bon autheur ... 
+                $book->authors[] = $this->getGoodReadIdFromLink($contributor->getAttribute("href"));
             }
         }
-
 
         return $book;
     }
@@ -80,5 +82,12 @@ class GoodReadParser
         preg_match("/(.*\d{4}) by (.*)/", $publishInfo, $matches);
 
         return [$matches[1], $matches[2]];
+    }
+
+    private function getGoodReadIdFromLink(string $href): string
+    {
+        preg_match("/show\/(\d*)\./", $href, $matches);
+
+        return $matches[1];
     }
 }
