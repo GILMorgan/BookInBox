@@ -44,4 +44,23 @@ class AuthorProviderTest extends TestCase
 
         $this->assertNull($authorProvider->delete($dto));
     }
+
+    public function testGetAll()
+    {
+        $dto = AuthorFactory::getAuthor();
+        $authorRepository = Mockery::mock(AuthorRepository::class);
+        $authorRepository->shouldReceive("findAll")->andReturn([new Author()]);
+
+        $authorSerializer = Mockery::mock(AuthorSerializer::class);
+        $authorSerializer->shouldReceive("toDto")->andReturn($dto);
+
+        $authorProvider = new AuthorProvider(
+            $authorRepository,
+            $authorSerializer
+        );
+
+        $this->assertSame([$dto], $authorProvider->getAll());
+
+    
+    }
 }

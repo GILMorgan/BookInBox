@@ -18,4 +18,14 @@ class AuthorSerializer
 
         return $entity;
     }
+
+    public function toDto(Entity $entity): Author
+    {
+        $author = new Author();
+        $author->id = $entity->getId();
+        $author->birthDate = $entity->getBirthDate();
+        $author->goodreadId = $entity->getGoodreadId();
+
+        return $author;
+    }
 }

@@ -13,7 +13,6 @@ class AuthorProvider implements AuthorProviderInterface
         private readonly AuthorRepository $authorRepository,
         private readonly AuthorSerializer $authorSerializer
     ) {
-    
     }
 
     public function save(Author $author): Author
@@ -30,5 +29,15 @@ class AuthorProvider implements AuthorProviderInterface
         $entity = $this->authorRepository->find($author->id);
 
         $this->authorRepository->delete($entity);
+    }
+
+    public function getAll(): array
+    {
+        return array_map(
+            function ($author) {
+                return $this->authorSerializer->toDto($author);
+            },
+            $this->authorRepository->findAll()
+        );
     }
 } 
