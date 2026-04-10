@@ -19,16 +19,14 @@ class BookinboxBookAddAuthorCommand extends Command
 {
     public function __construct(
         private readonly OpenLibraryApi $openLibraryApi
-    )
-    {
+    ) {
         parent::__construct();
     }
 
     protected function configure(): void
     {
         $this
-            ->addArgument('openLibraryId', InputArgument::REQUIRED, 'openLibrary author\'s Id')
-        ;
+            ->addArgument('openLibraryId', InputArgument::REQUIRED, 'openLibrary author\'s Id');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

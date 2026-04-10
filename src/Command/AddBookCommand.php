@@ -21,8 +21,7 @@ class AddBookCommand extends Command
 {
     public function __construct(
         private readonly BookRepository $bookRepository,
-    )
-    {
+    ) {
         parent::__construct();
     }
 

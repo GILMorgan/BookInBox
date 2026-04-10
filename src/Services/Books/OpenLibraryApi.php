@@ -11,8 +11,7 @@ class OpenLibraryApi
     public function __construct(
         private readonly HttpClientInterface $httpClient,
         private readonly AuthorSerializer $authorSerializer
-    )
-    {
+    ) {
     }
 
     public function getAuthor(string $id): Author

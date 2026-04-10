@@ -18,11 +18,17 @@ class AuthorProvider implements AuthorProviderInterface
 
     public function save(Author $author): Author
     {
-        return Author;
+        $this->authorRepository->save(
+            $this->authorSerializer->toEntity($author)
+        );
+
+        return $author;
     }
 
     public function delete(Author $author): void
     {
-    
+        $entity = $this->authorRepository->find($author->id);
+
+        $this->authorRepository->delete($entity);
     }
 } 

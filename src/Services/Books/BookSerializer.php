@@ -19,8 +19,7 @@ final class BookSerializer
             ->setPublisher($book->publisher)        
             ->setIsbn10($book->isbn10)
             ->setIsbn13($book->isbn13)
-            ->setNumberOfPages($book->numberOfPages)
-        ;
+            ->setNumberOfPages($book->numberOfPages);
 
         return $entity;
     }
