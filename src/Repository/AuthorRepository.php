@@ -2,29 +2,28 @@
 
 namespace App\Repository;
 
-use App\Entity\Book;
+use App\Entity\Author;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-class BookRepository extends ServiceEntityRepository
+class AuthorRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Book::class);
+        parent::__construct($registry, Author::class);
     }
 
-    public function save(Book $book): Book
+    public function save(Author $author): Author
     {
-        $this->getEntityManager()->persist($book);
+        $this->getEntityManager()->persist($author);
         $this->getEntityManager()->flush();
 
         return $book;
     }
 
-    public function delete(Book $book): void
+    public function delete(Author $author): void
     {
-        $this->getEntityManager()->remove($book);
+        $this->getEntityManager()->remove($author);
         $this->getEntityManager()->flush();
     }
 }
-

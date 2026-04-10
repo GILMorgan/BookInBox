@@ -12,6 +12,7 @@ class GoodReadParser
 
         $book = $this->extractJson($filepath, $book);
         $book = $this->getEditionDetails($filepath, $book);
+        $book = $this->getAuthors($filepath, $book);
 
         return $book;
     }
@@ -50,6 +51,26 @@ class GoodReadParser
 
         $book->publisher = $publisher;
         $book->publishDate = $publishDate;
+
+        return $book;
+    }
+
+    private function getAuthors(string $filepath, Book $book): Book
+    {
+        $doc = $this->readFile($filepath);
+        $xpath = new \DOMXPath($doc);
+
+        $authors = [];
+        $contributors = $xpath->query("//span/a[@class='ContributorLink']");
+        
+        foreach ($contributors as $contributor) {
+            $role = $xpath->query("./span[@data-testid='role']", $contributor);
+
+            if (!count($role)) {
+                //faire le remplacement par le bon autheur ... 
+            }
+        }
+
 
         return $book;
     }
