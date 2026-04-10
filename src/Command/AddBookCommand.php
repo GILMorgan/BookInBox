@@ -23,7 +23,6 @@ class AddBookCommand extends Command
     public function __construct(
         private readonly BookProvider $bookProvider,
         private readonly GoodReadParser $goodReadParser
-
     ) {
         parent::__construct();
     }

@@ -21,7 +21,6 @@ class BookinboxBookAddAuthorCommand extends Command
     public function __construct(
         private readonly OpenLibraryApi $openLibraryApi,
         private readonly AuthorProviderInterface $authorProvider
-
     ) {
         parent::__construct();
     }
