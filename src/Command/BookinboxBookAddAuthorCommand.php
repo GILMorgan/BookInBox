@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Services\Books\OpenLibraryApi;
+use App\Domain\Books\Contract\AuthorProviderInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,7 +19,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class BookinboxBookAddAuthorCommand extends Command
 {
     public function __construct(
-        private readonly OpenLibraryApi $openLibraryApi
+        private readonly OpenLibraryApi $openLibraryApi,
+        private readonly AuthorProviderInterface $authorProvider
+
     ) {
         parent::__construct();
     }
@@ -35,6 +38,7 @@ class BookinboxBookAddAuthorCommand extends Command
         $id = $input->getArgument('openLibraryId');
 
         $author = $this->openLibraryApi->getAuthor($id);
+        $this->authorProvider->save($author);
 
         $io->success('Author successfully added');
 

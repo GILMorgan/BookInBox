@@ -18,7 +18,7 @@ class AuthorRepository extends ServiceEntityRepository
         $this->getEntityManager()->persist($author);
         $this->getEntityManager()->flush();
 
-        return $book;
+        return $author;
     }
 
     public function delete(Author $author): void
