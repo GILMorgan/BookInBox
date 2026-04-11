@@ -6,5 +6,6 @@ use App\Domain\Books\DTO\Book;
 
 interface BookProviderInterface
 {
+    public function getAll(): array;
     public function save(Book $book): Book;
 }

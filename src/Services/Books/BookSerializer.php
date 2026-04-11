@@ -23,4 +23,20 @@ final class BookSerializer
 
         return $entity;
     }
+
+    public function toDto(BookEntity $bookEntity): Book
+    {
+        $dto = new Book();
+        $dto->id = $bookEntity->getId();
+        $dto->openlibraryId = $bookEntity->getOpenlibraryId();
+        $dto->title = $bookEntity->getTitle();
+        $dto->authors = $bookEntity->getAuthors();
+        $dto->publishDate = $bookEntity->getPublishDate();
+        $dto->publisher = $bookEntity->getPublisher();
+        $dto->isbn10 = $bookEntity->getIsbn10();
+        $dto->isbn13 = $bookEntity->getIsbn13();
+        $dto->numberOfPages = $bookEntity->getNumberOfPages();
+
+        return $dto;
+    }
 }

@@ -15,6 +15,16 @@ class BookProvider implements BookProviderInterface
     ) {
     }
 
+    public function getAll(): array
+    {
+        return array_map(
+            function ($book) {
+                return $this->bookSerializer->toDto($book);
+            },
+            $this->bookRepository->findAll(),
+        );
+    }
+
     public function save(Book $book): Book
     {
         $this->bookRepository->save($this->bookSerializer->toEntity($book));
