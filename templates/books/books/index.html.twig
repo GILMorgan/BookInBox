@@ -11,11 +11,16 @@
 <div class="example-wrapper">
     <table>
         <thead>
-
+            <tr>
+                <th>Titre</th>
+                <th>Autheur</th>
+            </th>
         </thead>
         <tbody>
             {% for book in books %}
             <tr>
+                <td>{{ book.title|raw }}</td>
+                <td>{{ book.authors|join(',') }}</td>
             </tr>
             {% endfor %}
         </tbody>
