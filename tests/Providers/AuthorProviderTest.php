@@ -60,7 +60,40 @@ class AuthorProviderTest extends TestCase
         );
 
         $this->assertSame([$dto], $authorProvider->getAll());
+    }
 
-    
+    public function testGetByGoodreadIdFound()
+    {
+        $dto = AuthorFactory::getAuthor();
+
+        $authorRepository = Mockery::mock(AuthorRepository::class);
+        $authorRepository->shouldReceive("findOneByGoodreadId")->andReturn(new Author());
+
+        $authorSerializer = Mockery::mock(AuthorSerializer::class);
+        $authorSerializer->shouldReceive("toDto")->andReturn($dto);       
+
+        $authorProvider = new AuthorProvider(
+            $authorRepository,
+            $authorSerializer
+        );
+
+        $this->assertSame($dto, $authorProvider->getByGoodreadId("goodReadId"));
+    }
+
+    public function testGetByGoodreadIdNotFound()
+    {
+        $authorRepository = Mockery::mock(AuthorRepository::class);
+        $authorRepository->shouldReceive("findOneByGoodreadId")->andReturnNull();
+
+        $authorSerializer = Mockery::mock(AuthorSerializer::class);
+
+        $authorProvider = new AuthorProvider(
+            $authorRepository,
+            $authorSerializer
+        );
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("Couldn't find author with the goodread id goodReadId");
+        $authorProvider->getByGoodreadId("goodReadId");
     }
 }

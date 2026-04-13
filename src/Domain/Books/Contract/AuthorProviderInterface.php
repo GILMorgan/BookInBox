@@ -8,5 +8,7 @@ interface AuthorProviderInterface
 {
     public function save(Author $author): Author;
     public function delete(Author $author): void;
+    public function get(string $id): Author;
     public function getAll(): array;
+    public function getByGoodreadId(string $goodreadId): Author;
 }

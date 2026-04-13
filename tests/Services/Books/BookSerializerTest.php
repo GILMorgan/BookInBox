@@ -21,7 +21,7 @@ class BookSerializerTest extends TestCase
         $this->assertSame("1245-afdc-457ef-5f7fff", $entity->getId());
         $this->assertSame("OL45804W", $entity->getOpenlibraryId());
         $this->assertSame("Le monde de Bob", $entity->getTitle());
-        $this->assertSame(["Bob Enough"], $entity->getAuthors());
+        $this->assertSame(["1547-dfcc-45d78-fe733"], $entity->getAuthors());
         $this->assertSame("25/12/1978", $entity->getPublishDate());
         $this->assertSame("Pingouin edition", $entity->getPublisher());
         $this->assertSame("0140328726", $entity->getIsbn10());
@@ -36,7 +36,7 @@ class BookSerializerTest extends TestCase
             ->setId("1245-afdc-457ef-5f7fff")
             ->setOpenlibraryId("OL45804W")
             ->setTitle("Le monde de Bob")
-            ->setAuthors(["Bob Enough"])
+            ->setAuthors(["1547-dfcc-45d78-fe733"])
             ->setPublishDate("25/12/1978")
             ->setPublisher("Pingouin edition")
             ->setIsbn10("0140328726")
@@ -50,7 +50,7 @@ class BookSerializerTest extends TestCase
         $this->assertSame("1245-afdc-457ef-5f7fff", $dto->id);
         $this->assertSame("OL45804W", $dto->openlibraryId);
         $this->assertSame("Le monde de Bob", $dto->title);
-        $this->assertSame(["Bob Enough"], $dto->authors);
+        $this->assertSame(["1547-dfcc-45d78-fe733"], $dto->authors);
         $this->assertSame("25/12/1978", $dto->publishDate);
         $this->assertSame("Pingouin edition", $dto->publisher);
         $this->assertSame("0140328726", $dto->isbn10);

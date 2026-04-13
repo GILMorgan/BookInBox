@@ -3,10 +3,16 @@
 namespace App\Services;
 
 use App\Domain\Books\DTO\Book;
+use App\Domain\Books\Contract\AuthorProviderInterface;
 use Symfony\Component\Uid\Uuid;
 
 class GoodReadParser
 {
+    public function __construct(
+        private readonly AuthorProviderInterface $authorProvider
+    ) {
+    }
+
     public function parse(string $filepath): Book
     {
         $book = new Book();
@@ -70,7 +76,8 @@ class GoodReadParser
             $role = $xpath->query("./span[@data-testid='role']", $contributor);
 
             if (!count($role)) {
-                $book->authors[] = $this->getGoodReadIdFromLink($contributor->getAttribute("href"));
+                $goodreadId = $this->getGoodReadIdFromLink($contributor->getAttribute("href"));
+                $book->authors[] = $this->authorProvider->getByGoodreadId($goodreadId)->id;
             }
         }
 
