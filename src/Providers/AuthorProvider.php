@@ -31,6 +31,13 @@ class AuthorProvider implements AuthorProviderInterface
         $this->authorRepository->delete($entity);
     }
 
+    public function get(string $id): Author
+    {
+        return $this->authorSerializer->toDto(
+            $this->authorRepository->find($id)
+        );
+    }
+
     public function getAll(): array
     {
         return array_map(
@@ -39,5 +46,21 @@ class AuthorProvider implements AuthorProviderInterface
             },
             $this->authorRepository->findAll()
         );
+    }
+
+    public function getByGoodreadId(string $goodreadId): Author
+    {
+        $author =  $this->authorRepository->findOneByGoodreadId($goodreadId);
+
+        if (!$author) {
+            throw new \Exception(
+                sprintf(
+                    "Couldn't find author with the goodread id %s",
+                    $goodreadId
+                )
+            );
+        }
+
+        return $this->authorSerializer->toDto($author);    
     }
 } 

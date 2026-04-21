@@ -8,7 +8,6 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
     <table>
         <thead>
             <tr>
@@ -20,10 +19,9 @@
             {% for book in books %}
             <tr>
                 <td>{{ book.title|raw }}</td>
-                <td>{{ book.authors|join(',') }}</td>
+                <td>{{ booksAuthor(book) }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-</div>
 {% endblock %}

@@ -1,13 +1,21 @@
 <?php
 
 use App\Services\GoodReadParser;
+use App\Domain\Books\Contract\AuthorProviderInterface;
+use tests\Domain\Books\AuthorFactory;
 use PHPUnit\Framework\TestCase;
+use Mockery;
 
 class GoodReadParserTest extends TestCase
 {
     public function testGoodRead()
     {
-        $parser = new GoodReadParser();
+        $author = AuthorFactory::getAuthor();
+
+        $authorProvider = Mockery::mock(AuthorProviderInterface::class);
+        $authorProvider->shouldReceive("getByGoodreadId")->andReturn($author);
+
+        $parser = new GoodReadParser($authorProvider);
 
         $dto = $parser->parse(__DIR__ . "/LaMer.html");
 
@@ -17,5 +25,6 @@ class GoodReadParserTest extends TestCase
         $this->assertSame("Rivages", $dto->publisher);
         $this->assertSame("August 23, 2023", $dto->publishDate);
         $this->assertSame(304, $dto->numberOfPages);
+        $this->assertSame([$author->id], $dto->authors);
     }
 }

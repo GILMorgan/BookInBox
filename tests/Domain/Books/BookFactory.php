@@ -12,7 +12,7 @@ class BookFactory
         $book->id = "1245-afdc-457ef-5f7fff";
         $book->openlibraryId = "OL45804W";
         $book->title = "Le monde de Bob";
-        $book->authors = ["Bob Enough"];
+        $book->authors = ["1547-dfcc-45d78-fe733"];
         $book->publishDate = "25/12/1978";
         $book->publisher = "Pingouin edition";
         $book->isbn10 = "0140328726";

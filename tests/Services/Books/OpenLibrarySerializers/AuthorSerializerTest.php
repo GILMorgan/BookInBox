@@ -18,4 +18,17 @@ class AuthorSerializerTest extends TestCase
         $this->assertSame("Emily St. John Mandel", $author->name);
         $this->assertSame("2786093", $author->goodreadId);
     }
+
+    public function testJsonDeserializationWithoutBirthDate()
+    {
+        $json = '{"type": {"key": "/type/author"}, "name": "Olivier NOREK", "key": "/authors/OL9216463A", "source_records": ["amazon:2379650144"], "latest_revision": 1, "revision": 1, "created": {"type": "/type/datetime", "value": "2021-05-14T14:09:01.395554"}, "last_modified": {"type": "/type/datetime", "value": "2021-05-14T14:09:01.395554"}}';
+
+        $openLibrarySerializer = new AuthorSerializer();
+        $author = $openLibrarySerializer->fromJsonApi($json);
+
+        $this->assertSame("", $author->birthDate);
+        $this->assertSame("Olivier NOREK", $author->name);
+        $this->assertSame("", $author->goodreadId);
+    }
+
 }
