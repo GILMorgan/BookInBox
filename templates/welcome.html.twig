@@ -3,3 +3,9 @@
 {% block title %}
 	Bienvenue
 {% endblock %}
+
+{% block body %}
+    BookInBox est une boîte au livres virtuelle.<br/>
+    L'idée est de pouvoir préter ou échanger des livres entre participants. Sans contrepartie financière ou autre, simplement pour ne pas voir ses livres prendre la poussière sur les étagères.<br/>
+    Actuellement la bibliothèque compte {{ nbAuthors }} auteurs, {{ nbBooks }} livres pour un total de {{ nbPages|number_format(0, '.', ',') }} pages.
+{% endblock %}

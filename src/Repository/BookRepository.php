@@ -26,5 +26,26 @@ class BookRepository extends ServiceEntityRepository
         $this->getEntityManager()->remove($book);
         $this->getEntityManager()->flush();
     }
+
+    public function countAll(): int
+    {
+        $res = $this->createQueryBuilder('b') 
+            ->select('count(b.id) as c') 
+            ->getQuery() 
+            ->getSingleScalarResult(); 
+
+        return intval($res); 
+    }
+
+    public function sumAllPages(): int
+    {
+        $res = $this->createQueryBuilder('b') 
+            ->select('sum(b.numberOfPages) as s') 
+            ->getQuery() 
+            ->getSingleScalarResult(); 
+
+        return intval($res); 
+
+    }
 }
 

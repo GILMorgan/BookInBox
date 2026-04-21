@@ -11,4 +11,5 @@ interface AuthorProviderInterface
     public function get(string $id): Author;
     public function getAll(): array;
     public function getByGoodreadId(string $goodreadId): Author;
+    public function getNbOfAuthors() :int;
 }

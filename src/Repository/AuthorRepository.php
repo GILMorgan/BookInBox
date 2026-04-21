@@ -26,4 +26,14 @@ class AuthorRepository extends ServiceEntityRepository
         $this->getEntityManager()->remove($author);
         $this->getEntityManager()->flush();
     }
+
+    public function countAll(): int
+    {
+        $res = $this->createQueryBuilder('a') 
+            ->select('count(a.id) as c') 
+            ->getQuery() 
+            ->getSingleScalarResult(); 
+
+        return intval($res); 
+    }
 }
