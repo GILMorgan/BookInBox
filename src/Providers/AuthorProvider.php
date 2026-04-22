@@ -63,4 +63,9 @@ class AuthorProvider implements AuthorProviderInterface
 
         return $this->authorSerializer->toDto($author);    
     }
+
+    public function getNbOfAuthors(): int
+    {
+        return $this->authorRepository->countAll();
+    }
 } 

@@ -31,4 +31,14 @@ class BookProvider implements BookProviderInterface
 
         return $book;
     }
+
+    public function getNbOfBooks(): int
+    {
+        return $this->bookRepository->countAll();
+    }
+
+    public function getNbOfPages(): int
+    {
+        return $this->bookRepository->sumAllPages();
+    }
 }

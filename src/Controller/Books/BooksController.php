@@ -17,8 +17,10 @@ final class BooksController extends AbstractController
     #[Route('/books/books', name: 'app_books_books')]
     public function index(): Response
     {
-        return $this->render('books/books/index.html.twig', [
+        return $this->render(
+            'books/books/index.html.twig', [
             "books" => $this->bookProvider->getAll(),
-        ]);
+            ]
+        );
     }
 }
