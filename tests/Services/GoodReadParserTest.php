@@ -27,4 +27,25 @@ class GoodReadParserTest extends TestCase
         $this->assertSame(304, $dto->numberOfPages);
         $this->assertSame([$author->id], $dto->authors);
     }
+
+    public function testGoodRead2()
+    {
+        $author = AuthorFactory::getAuthor();
+
+        $authorProvider = Mockery::mock(AuthorProviderInterface::class);
+        $authorProvider->shouldReceive("getByGoodreadId")->andReturn($author);
+
+        $parser = new GoodReadParser($authorProvider);
+
+        $dto = $parser->parse(__DIR__ . "/LeRegne.html");
+
+        $this->assertSame("Le 5e règne", $dto->title);
+        $this->assertSame("", $dto->isbn13);
+        $this->assertSame("B0DM4DJQ6L", $dto->isbn10);
+        $this->assertSame("Pocket", $dto->publisher);
+        $this->assertSame("June 8, 2006", $dto->publishDate);
+        $this->assertSame(528, $dto->numberOfPages);
+        $this->assertSame([$author->id], $dto->authors);
+    }
+
 }
