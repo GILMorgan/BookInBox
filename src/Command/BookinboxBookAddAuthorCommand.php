@@ -14,7 +14,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'bookinbox:book:addAuthor',
-    description: 'Add a short description for your command',
+    description: 'Add a new author',
 )]
 class BookinboxBookAddAuthorCommand extends Command
 {

@@ -43,7 +43,7 @@ class GoodReadParser
         $json = json_decode($items->item(0)->nodeValue);
         
         $book->title = $json->name;
-        $book->isbn13 = $json->isbn;
+        $book->isbn13 = $this->getIsbn($json);
         $book->numberOfPages = $json->numberOfPages;
 
         return $book;
@@ -96,5 +96,14 @@ class GoodReadParser
         preg_match("/show\/(\d*)\./", $href, $matches);
 
         return $matches[1];
+    }
+
+    private function getIsbn(\stdClass $json): string
+    {
+        if (isset($json->isbn)) {
+            return (string) $json->isbn;
+        }
+
+        return "";
     }
 }
