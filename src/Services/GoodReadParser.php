@@ -53,9 +53,8 @@ class GoodReadParser
     {
         $doc = $this->readFile($filepath);
         $xpath = new \DOMXPath($doc);
-        $editionDetails = $xpath->query("//div[@class='EditionDetails']")->item(0);
 
-        $book->isbn10 = trim($xpath->query("//span[@data-testid='asin']", $editionDetails)->item(0)->nodeValue);
+        $book->isbn10 = $this->getIsbn10($xpath);
         [$publishDate, $publisher] = $this->formatPublisher($xpath->query("//dl/div[@class='DescListItem'][2]/dd")->item(0)->nodeValue);
 
         $book->publisher = $publisher;
@@ -105,5 +104,17 @@ class GoodReadParser
         }
 
         return "";
+    }
+
+    private function getIsbn10(\DOMXPath $xpath): string
+    {
+        $editionDetails = $xpath->query("//div[@class='EditionDetails']")->item(0);
+        $node = $xpath->query("//span[@data-testid='asin']", $editionDetails)->item(0);
+
+        if (!$node) {
+            return "";
+        }
+
+        return trim($node->nodeValue);
     }
 }
