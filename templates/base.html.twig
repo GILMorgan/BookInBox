@@ -7,10 +7,12 @@
 
 		<link href="{{ asset('css/main.css') }}" rel="stylesheet">
         {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
 		<script src="{{ asset('js/main.js') }}"></script>
         {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
         {% endblock %}
 
         {% set frankenphpHotReload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
@@ -21,7 +23,7 @@
         {% endif %}
     </head>
     <body>
-		<div class="wrapper">
+		<div class="wrapper" id="app">
 			<header class="navbar">
 				<div class="container row">
 					<div class="brand">Book In Box</div>
