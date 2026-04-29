@@ -4,20 +4,4 @@
 
 {% block body %}
     <pagination url="{{ path('app_api_books') }}"></pagination>
-    <table>
-        <thead>
-            <tr>
-                <th>Titre</th>
-                <th>Autheur</th>
-            </th>
-        </thead>
-        <tbody>
-            {% for book in books %}
-            <tr>
-                <td>{{ book.title|raw }}</td>
-                <td>{{ booksAuthor(book) }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
 {% endblock %}

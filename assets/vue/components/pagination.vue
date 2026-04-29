@@ -3,12 +3,13 @@
     <thead>
       <tr>
         <th>Titre</th>
-        <th>Autheur</th>
+        <th>Auteur</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="{ author } in authors">
-        <td>TEST</td>
+      <tr v-for="book in books">        
+        <td>{{ book.title }}</td>
+        <td></td>
       </tr>
     </tbody>
   </table>
@@ -16,13 +17,13 @@
 
 <script setup>
 import { ref, toRefs } from 'vue'
-import axios from 'axios'; 
+import axios from 'axios' 
 
-const authors = ref([])
+const books = ref([])
 
 const params = {
   page: '1',
-};
+}
 
 const props = defineProps(
   {
@@ -35,12 +36,11 @@ const { url } = toRefs(props)
 axios
     .get(url.value, {params})
     .then(response => {
-        authors.value = response.data;
+        books.value = response.data.books
     })
     .catch(error => {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching data:', error)
     });
-
 
 </script>
 

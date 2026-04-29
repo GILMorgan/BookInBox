@@ -44,6 +44,11 @@ class BookProvider implements BookProviderInterface
 
     public function getPage(int $page): array
     {
-        return [];
+        return array_map(
+            function ($book) {
+                return $this->bookSerializer->toDto($book);
+            },
+            $this->bookRepository->findPagined($page)
+        );
     }
 }
