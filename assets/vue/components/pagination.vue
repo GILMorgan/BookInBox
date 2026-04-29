@@ -1,3 +1,19 @@
+<style scoped>
+    nav {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    nav a {
+        border: 1px solid black;
+        display: block;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>
+
 <template>
   <table>
     <thead>
@@ -13,6 +29,14 @@
       </tr>
     </tbody>
   </table>
+
+  <nav>
+    <a @click="prevLink(currentPage)">&laquo;</a>
+    <div v-for="pageLink in pageLinks">
+        <a>{{ pageLink }}</a>
+    </div>
+    <a @click="nextLink(currentPage, maxPage)">&raquo;</a>
+  </nav>
 </template>
 
 <script setup>
@@ -20,9 +44,12 @@ import { ref, toRefs } from 'vue'
 import axios from 'axios' 
 
 const books = ref([])
+const currentPage = ref(1)
+const maxPage = ref(1)
+const pageLinks = ref([])
 
 const params = {
-  page: '1',
+  page: currentPage.value,
 }
 
 const props = defineProps(
@@ -33,14 +60,48 @@ const props = defineProps(
 
 const { url } = toRefs(props)
 
-axios
-    .get(url.value, {params})
-    .then(response => {
-        books.value = response.data.books
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error)
-    });
+const getBooks = function () {
+    const params = {
+        page: currentPage.value,
+    }
+
+    axios
+        .get(url.value, {params})
+        .then(response => {
+            books.value = response.data.books
+            pageLinks.value = totalBooks(response.data.nbBooks)
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error)
+        });
+}
+
+const totalBooks = function (nbBooks) {
+    maxPage.value = Math.ceil(nbBooks / 25)
+    let pageLinks = []
+
+    for (var i = 0; i < maxPage.value; i++) {
+        pageLinks.push(i + 1)
+    }
+
+    return pageLinks
+}
+
+const nextLink = function () {
+    if (currentPage.value < maxPage.value) {
+        currentPage.value++
+        getBooks()
+    }
+}
+
+const prevLink = function () {
+    if (currentPage.value > 1) {
+        currentPage.value--
+        getBooks()
+    }
+}
+
+getBooks()
 
 </script>
 
