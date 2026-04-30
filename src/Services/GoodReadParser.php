@@ -42,7 +42,7 @@ class GoodReadParser
         $items = $xpath->query("//script[@type='application/ld+json']");
         $json = json_decode($items->item(0)->nodeValue);
         
-        $book->title = $json->name;
+        $book->title = html_entity_decode($json->name, ENT_QUOTES | ENT_HTML5);
         $book->isbn13 = $this->getIsbn($json);
         $book->numberOfPages = $json->numberOfPages;
 
