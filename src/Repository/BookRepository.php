@@ -53,6 +53,9 @@ class BookRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('b') 
             ->select('b')
+            ->leftJoin('b.authors', 'a')
+            ->orderBy('b.title', 'ASC')
+            ->orderBy('a.name', 'ASC')
             ->setFirstResult($firstResult)
             ->setMaxResults($nbResults)
             ->getQuery() 

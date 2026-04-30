@@ -25,7 +25,7 @@
     <tbody>
       <tr v-for="book in books">        
         <td>{{ book.title }}</td>
-        <td></td>
+        <td>{{ getName(book) }}</td>
       </tr>
     </tbody>
   </table>
@@ -106,6 +106,14 @@ const goToLink = function (page) {
         currentPage.value = page
         getBooks()
     }
+}
+
+const getName = function (book) {
+    if (book.authors[0]) {
+        return book.authors[0].name
+    }
+
+    return "-"
 }
 
 getBooks()
