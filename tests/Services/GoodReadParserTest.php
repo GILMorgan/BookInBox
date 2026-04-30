@@ -47,5 +47,4 @@ class GoodReadParserTest extends TestCase
         $this->assertSame(528, $dto->numberOfPages);
         $this->assertSame([$author->id], $dto->authors);
     }
-
 }
