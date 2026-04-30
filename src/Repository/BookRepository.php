@@ -45,7 +45,18 @@ class BookRepository extends ServiceEntityRepository
             ->getSingleScalarResult(); 
 
         return intval($res); 
+    }
 
+    public function findPagined(int $page, int $nbResults = 25): array
+    {
+        $firstResult = ($page -1) * $nbResults;
+
+        return $this->createQueryBuilder('b') 
+            ->select('b')
+            ->setFirstResult($firstResult)
+            ->setMaxResults($nbResults)
+            ->getQuery() 
+            ->getResult();
     }
 }
 
