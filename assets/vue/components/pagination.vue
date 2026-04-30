@@ -31,11 +31,11 @@
   </table>
 
   <nav>
-    <a @click="prevLink(currentPage)">&laquo;</a>
+    <a @click="prevLink()">&laquo;</a>
     <div v-for="pageLink in pageLinks">
-        <a>{{ pageLink }}</a>
+        <a @click="goToLink(pageLink)">{{ pageLink }}</a>
     </div>
-    <a @click="nextLink(currentPage, maxPage)">&raquo;</a>
+    <a @click="nextLink()">&raquo;</a>
   </nav>
 </template>
 
@@ -97,6 +97,13 @@ const nextLink = function () {
 const prevLink = function () {
     if (currentPage.value > 1) {
         currentPage.value--
+        getBooks()
+    }
+}
+
+const goToLink = function (page) {
+    if (currentPage.value !== page) {
+        currentPage.value = page
         getBooks()
     }
 }
