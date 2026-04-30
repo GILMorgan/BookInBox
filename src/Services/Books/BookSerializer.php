@@ -4,17 +4,29 @@ namespace App\Services\Books;
 
 use App\Entity\Book as BookEntity;
 use App\Domain\Books\DTO\Book;
+use App\Repository\AuthorRepository;
 
 final class BookSerializer
 {
+    public function __construct(private readonly AuthorRepository $authorRepository)
+    {
+    }
+
     public function toEntity(Book $book): BookEntity
     {
+        $authors = array_map(
+            function ($author) {
+                return $this->authorRepository->find($author);
+            },
+            $book->authors
+        );
+
         $entity = new BookEntity();
         $entity
             ->setId($book->id)
             ->setOpenlibraryId($book->openlibraryId)
             ->setTitle($book->title)
-            ->setAuthors($book->authors)
+            ->setAuthors($authors)
             ->setPublishDate($book->publishDate)
             ->setPublisher($book->publisher)        
             ->setIsbn10($book->isbn10)

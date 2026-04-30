@@ -5,6 +5,7 @@ namespace tests\Providers;
 use App\Entity\Book;
 use App\Providers\BookProvider;
 use App\Repository\BookRepository;
+use App\Repository\AuthorRepository;
 use App\Services\Books\BookSerializer;
 use tests\Domain\Books\BookFactory;
 use PHPUnit\Framework\TestCase;
@@ -19,9 +20,12 @@ class BookProviderTest extends TestCase
         $bookRepository = Mockery::mock(BookRepository::class);
         $bookRepository->shouldReceive("save")->andReturnArg(0);
 
+        $authorRepository = Mockery::mock(AuthorRepository::class);
+        $authorRepository->shouldReceive("find")->andReturn(null); 
+
         $bookProvider = new BookProvider(
             $bookRepository,
-            new BookSerializer()
+            new BookSerializer($authorRepository)
         );
 
         $this->assertSame($dto, $bookProvider->save($dto));
@@ -46,9 +50,11 @@ class BookProviderTest extends TestCase
         $bookRepository = Mockery::mock(BookRepository::class);
         $bookRepository->shouldReceive("findAll")->andReturn([$entity]);
 
+        $authorRepository = Mockery::mock(AuthorRepository::class);
+
         $bookProvider = new BookProvider(
             $bookRepository,
-            new BookSerializer()
+            new BookSerializer($authorRepository)
         );
 
         $this->assertCount(1, $bookProvider->getAll());

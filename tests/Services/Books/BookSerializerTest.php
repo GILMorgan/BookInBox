@@ -2,7 +2,9 @@
 
 namespace tests\Services\Books;
 
+use App\Repository\AuthorRepository;
 use App\Services\Books\BookSerializer;
+use App\Entity\Author;
 use App\Entity\Book;
 use tests\Domain\Books\BookFactory;
 use PHPUnit\Framework\TestCase;
@@ -12,16 +14,19 @@ class BookSerializerTest extends TestCase
 {
     public function testToEntity()
     {
+        $author = new Author();
         $book = BookFactory::getBook();
+        $authorRepository = Mockery::mock(AuthorRepository::class);
+        $authorRepository->shouldReceive("find")->andReturn($author);
 
-        $bookSerializer = new BookSerializer();
+        $bookSerializer = new BookSerializer($authorRepository);
 
         $entity = $bookSerializer->toEntity($book);
 
         $this->assertSame("1245-afdc-457ef-5f7fff", $entity->getId());
         $this->assertSame("OL45804W", $entity->getOpenlibraryId());
         $this->assertSame("Le monde de Bob", $entity->getTitle());
-        $this->assertSame(["1547-dfcc-45d78-fe733"], $entity->getAuthors());
+        $this->assertSame([$author], $entity->getAuthors());
         $this->assertSame("25/12/1978", $entity->getPublishDate());
         $this->assertSame("Pingouin edition", $entity->getPublisher());
         $this->assertSame("0140328726", $entity->getIsbn10());
@@ -43,8 +48,9 @@ class BookSerializerTest extends TestCase
             ->setIsbn13("9780140328721")
             ->setNumberOfPages(130)
         ;
+        $authorRepository = Mockery::mock(AuthorRepository::class);
 
-        $bookSerializer = new BookSerializer();
+        $bookSerializer = new BookSerializer($authorRepository);
         $dto = $bookSerializer->toDto($entity); 
 
         $this->assertSame("1245-afdc-457ef-5f7fff", $dto->id);
