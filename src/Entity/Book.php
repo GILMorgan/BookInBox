@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity()]
 class Book
@@ -17,8 +19,8 @@ class Book
     #[ORM\Column]
     private string $title;
     
-    #[ORM\Column()]
-    private array $authors;
+    #[ORM\ManyToMany(targetEntity: Author::class, inversedBy: 'books')]
+    private Collection $authors;
     
     #[ORM\Column]
     private string $publishDate;
@@ -73,12 +75,12 @@ class Book
 
     public function getAuthors(): array
     {
-        return $this->authors;
+        return $this->authors->toArray();
     }
 
     public function setAuthors(array $authors): static
     {
-        $this->authors = $authors;
+        $this->authors = new ArrayCollection($authors);
 
         return $this;    
     }
