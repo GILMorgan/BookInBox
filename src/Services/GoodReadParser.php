@@ -44,7 +44,7 @@ class GoodReadParser
         
         $book->title = html_entity_decode($json->name, ENT_QUOTES | ENT_HTML5);
         $book->isbn13 = $this->getIsbn($json);
-        $book->numberOfPages = $json->numberOfPages;
+        $book->numberOfPages = $this->getNumberOfPages($json);
 
         return $book;
     }
@@ -116,5 +116,14 @@ class GoodReadParser
         }
 
         return trim($node->nodeValue);
+    }
+
+    private function getNumberOfPages(\stdClass $json): int
+    {
+        if (isset($json->numberOfPages)) {
+            return $json->numberOfPages;
+        }
+
+        return 0;
     }
 }
