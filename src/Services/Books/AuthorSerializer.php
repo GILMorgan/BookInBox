@@ -13,6 +13,7 @@ class AuthorSerializer
         $entity
             ->setId($author->id)
             ->setName($author->name)
+            ->setFirstName($author->firstName)
             ->setBirthDate($author->birthDate)
             ->setGoodreadId($author->goodreadId);
 
@@ -24,6 +25,7 @@ class AuthorSerializer
         $author = new Author();
         $author->id = $entity->getId();
         $author->birthDate = $entity->getBirthDate();
+        $author->firstName = $entity->getFirstName();
         $author->goodreadId = $entity->getGoodreadId();
         $author->name = $entity->getName();
 

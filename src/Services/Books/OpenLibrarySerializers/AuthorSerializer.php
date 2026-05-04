@@ -14,6 +14,7 @@ class AuthorSerializer
         $author = new Author();
         $author->id = (string) Uuid::v4(); 
         $author->name = $data->name;
+        $author->firstName = "";
         $author->birthDate = $this->getBirthDate($data);
         $author->goodreadId = $this->getGoodreadId($data);
 

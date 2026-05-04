@@ -110,7 +110,12 @@ const goToLink = function (page) {
 
 const getName = function (book) {
     if (book.authors[0]) {
-        return book.authors[0].name
+        let completeName = []
+        book.authors.forEach(function (author) {
+            completeName.push(author.name + " " + author.firstName) 
+        })
+
+        return completeName.join(", ")
     }
 
     return "-"
