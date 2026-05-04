@@ -68,4 +68,14 @@ class AuthorProvider implements AuthorProviderInterface
     {
         return $this->authorRepository->countAll();
     }
+
+    public function getPage(int $page): array
+    {
+        return array_map(
+            function ($author) {
+                return $this->authorSerializer->toDto($author);
+            },
+            $this->authorRepository->findPagined($page)
+        );
+    }
 } 

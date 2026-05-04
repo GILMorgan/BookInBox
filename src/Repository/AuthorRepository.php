@@ -36,4 +36,18 @@ class AuthorRepository extends ServiceEntityRepository
 
         return intval($res); 
     }
+
+    public function findPagined(int $page, int $nbResults = 25): array
+    {
+        $firstResult = ($page -1) * $nbResults;
+        
+        return $this->createQueryBuilder('a') 
+            ->select('a')
+            ->orderBy('a.name', 'ASC')
+            ->setFirstResult($firstResult)
+            ->setMaxResults($nbResults)
+            ->getQuery() 
+            ->getResult();
+
+    }
 }

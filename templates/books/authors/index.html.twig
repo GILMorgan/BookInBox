@@ -3,20 +3,5 @@
 {% block title %}Auteurs{% endblock %}
 
 {% block body %}
-<table>
-    <thead>
-        <tr>
-            <th>Date de naissance</th>
-            <th>Nom</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for author in authors %} 
-        <tr>
-            <td>{{ author.birthDate }}</td>
-            <td>{{ author.name }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<author-table url="{{ path('app_api_authors') }}"></author-table>
 {% endblock %}
