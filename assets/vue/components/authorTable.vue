@@ -24,7 +24,7 @@
         </thead>
         <tbody>
             <tr v-for="author in authors">
-                <td>{{ author.name }}</td>
+                <td>{{ author.name }}, {{author.firstName }}</td>
                 <td>{{ author.birthDate }}</td>
             </tr>
         </tbody>
