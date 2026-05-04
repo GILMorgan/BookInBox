@@ -122,6 +122,6 @@ getBooks()
 
 <script>
 export default {
-  name: 'Pagination',
+  name: 'BookTable',
 }
 </script>
