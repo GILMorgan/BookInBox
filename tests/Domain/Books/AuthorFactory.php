@@ -10,7 +10,8 @@ class AuthorFactory
     {
         $author = new Author;
         $author->id = "1547-dfcc-45d78-fe733";
-        $author->name = "Bob the writer";
+        $author->name = "The writer";
+        $author->firstName = "Bob";
         $author->birthDate = "25/12/1978";
         $author->goodreadId = "goodReadId";
 

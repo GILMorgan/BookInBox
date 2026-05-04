@@ -19,6 +19,9 @@ class Author
     #[ORM\Column]
     public string $name;
 
+    #[ORM\Column(options: ["default" => ""])]
+    public string $firstName = "";
+
     #[ORM\Column]
     public string $goodreadId;
 
@@ -47,6 +50,18 @@ class Author
         $this->name = $name;
 
         return $this;
+    }
+
+    public function getFirstName(): string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): static
+    {
+        $this->firstName = $firstName;
+
+        return $this;    
     }
 
     public function getBirthDate(): string
