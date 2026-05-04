@@ -13,9 +13,11 @@ globalThis.__VUE_PROD_HYDRATION_MISMATCH_DETAILS__ = true;
 import './styles/app.css';
 
 import { createApp } from 'vue';
-import Pagination from './vue/components/pagination.vue';
+import BookTable from './vue/components/bookTable.vue';
+import AuthorTable from './vue/components/authorTable.vue';
 
 const app = createApp({})
 
-app.component('pagination', Pagination);
+app.component('book-table', BookTable);
+app.component('author-table', AuthorTable);
 app.mount("#app");

@@ -15,35 +15,35 @@
 </style>
 
 <template>
-  <table>
-    <thead>
-      <tr>
-        <th>Titre</th>
-        <th>Auteur</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="book in books">        
-        <td>{{ book.title }}</td>
-        <td>{{ getName(book) }}</td>
-      </tr>
-    </tbody>
-  </table>
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Date de naissance</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="author in authors">
+                <td>{{ author.name }}</td>
+                <td>{{ author.birthDate }}</td>
+            </tr>
+        </tbody>
+    </table>
 
-  <nav>
-    <a @click="prevLink()">&laquo;</a>
-    <div v-for="pageLink in pageLinks">
-        <a @click="goToLink(pageLink)">{{ pageLink }}</a>
-    </div>
-    <a @click="nextLink()">&raquo;</a>
-  </nav>
+    <nav>
+        <a @click="prevLink()">&laquo;</a>
+        <div v-for="pageLink in pageLinks">
+            <a @click="goToLink(pageLink)">{{ pageLink }}</a>
+        </div>
+        <a @click="nextLink()">&raquo;</a>
+    </nav>
 </template>
 
 <script setup>
 import { ref, toRefs } from 'vue'
 import axios from 'axios' 
 
-const books = ref([])
+const authors = ref([])
 const currentPage = ref(1)
 const maxPage = ref(1)
 const pageLinks = ref([])
@@ -60,7 +60,7 @@ const props = defineProps(
 
 const { url } = toRefs(props)
 
-const getBooks = function () {
+const getAuthors = function () {
     const params = {
         page: currentPage.value,
     }
@@ -68,16 +68,16 @@ const getBooks = function () {
     axios
         .get(url.value, {params})
         .then(response => {
-            books.value = response.data.books
-            pageLinks.value = totalBooks(response.data.nbBooks)
+            authors.value = response.data.authors
+            pageLinks.value = totalAuthors(response.data.nbAuthors)
         })
         .catch(error => {
             console.error('Error fetching data:', error)
         });
 }
 
-const totalBooks = function (nbBooks) {
-    maxPage.value = Math.ceil(nbBooks / 25)
+const totalAuthors = function (nbAuthors) {
+    maxPage.value = Math.ceil(nbAuthors / 25)
     let pageLinks = []
 
     for (var i = 0; i < maxPage.value; i++) {
@@ -90,38 +90,30 @@ const totalBooks = function (nbBooks) {
 const nextLink = function () {
     if (currentPage.value < maxPage.value) {
         currentPage.value++
-        getBooks()
+        getAuthors()
     }
 }
 
 const prevLink = function () {
     if (currentPage.value > 1) {
         currentPage.value--
-        getBooks()
+        getAuthors()
     }
 }
 
 const goToLink = function (page) {
     if (currentPage.value !== page) {
         currentPage.value = page
-        getBooks()
+        getAuthors()
     }
 }
 
-const getName = function (book) {
-    if (book.authors[0]) {
-        return book.authors[0].name
-    }
-
-    return "-"
-}
-
-getBooks()
+getAuthors()
 
 </script>
 
 <script>
 export default {
-  name: 'Pagination',
+  name: 'AuthorTable',
 }
 </script>

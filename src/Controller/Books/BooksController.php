@@ -29,9 +29,11 @@ final class BooksController extends AbstractController
         $books = $this->bookProvider->getPage($page);
         $nbBooks = $this->bookProvider->getNbOfBooks();
 
-        return new JsonResponse([
+        return new JsonResponse(
+            [
             "books" => $books,
             "nbBooks" => $nbBooks,
-        ]);
+            ]
+        );
     }
 }
