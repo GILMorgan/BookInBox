@@ -55,6 +55,7 @@ class BookRepository extends ServiceEntityRepository
             ->select('b')
             ->leftJoin('b.authors', 'a')            
             ->orderBy('a.name', 'ASC')
+            ->addOrderBy('a.firstName', 'ASC')
             ->addOrderBy('b.serieName', 'ASC')
             ->addOrderBy('b.serieNumber', 'ASC')
             ->addOrderBy('b.title', 'ASC')
