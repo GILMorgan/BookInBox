@@ -41,6 +41,8 @@ class BookSerializerTest extends TestCase
             ->setId("1245-afdc-457ef-5f7fff")
             ->setOpenlibraryId("OL45804W")
             ->setTitle("Le monde de Bob")
+            ->setSerieName("Bobyverse 1")
+            ->setSerieNumber(1)
             ->setAuthors(["1547-dfcc-45d78-fe733"])
             ->setPublishDate("25/12/1978")
             ->setPublisher("Pingouin edition")
@@ -56,6 +58,8 @@ class BookSerializerTest extends TestCase
         $this->assertSame("1245-afdc-457ef-5f7fff", $dto->id);
         $this->assertSame("OL45804W", $dto->openlibraryId);
         $this->assertSame("Le monde de Bob", $dto->title);
+        $this->assertSame("Bobyverse 1", $dto->serieName);
+        $this->assertSame(1.0, $dto->serieNumber);
         $this->assertSame(["1547-dfcc-45d78-fe733"], $dto->authors);
         $this->assertSame("25/12/1978", $dto->publishDate);
         $this->assertSame("Pingouin edition", $dto->publisher);

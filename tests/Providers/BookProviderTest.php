@@ -39,6 +39,8 @@ class BookProviderTest extends TestCase
             ->setId("1245-afdc-457ef-5f7fff")
             ->setOpenLibraryId("OL45804W")
             ->setTitle("title")
+            ->setSerieName("")
+            ->setSerieNumber(0)
             ->setAuthors(["authorId"])
             ->setPublishDate("25/12/1978")
             ->setPublisher("Pingouin editions")

@@ -26,6 +26,8 @@ final class BookSerializer
             ->setId($book->id)
             ->setOpenlibraryId($book->openlibraryId)
             ->setTitle($book->title)
+            ->setSerieName($book->serieName)
+            ->setSerieNumber($book->serieNumber)
             ->setAuthors($authors)
             ->setPublishDate($book->publishDate)
             ->setPublisher($book->publisher)        
@@ -42,6 +44,8 @@ final class BookSerializer
         $dto->id = $bookEntity->getId();
         $dto->openlibraryId = $bookEntity->getOpenlibraryId();
         $dto->title = $bookEntity->getTitle();
+        $dto->serieName = $bookEntity->getSerieName();
+        $dto->serieNumber = $bookEntity->getSerieNumber();
         $dto->authors = $bookEntity->getAuthors();
         $dto->publishDate = $bookEntity->getPublishDate();
         $dto->publisher = $bookEntity->getPublisher();
