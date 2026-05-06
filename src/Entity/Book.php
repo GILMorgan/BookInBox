@@ -18,6 +18,13 @@ class Book
     
     #[ORM\Column]
     private string $title;
+
+    #[ORM\Column(options: ["default" => ""])]
+    private string $serieName;
+
+    //It may seems weird but sometimes, theres a 2.5 tome
+    #[ORM\Column(options: ["default" => 0])]
+    private float $serieNumber;
     
     #[ORM\ManyToMany(targetEntity: Author::class, inversedBy: 'books')]
     private Collection $authors;
@@ -70,6 +77,30 @@ class Book
     {
         $this->title = $title;
 
+        return $this;
+    }
+
+    public function getSerieName(): string
+    {
+        return $this->serieName;
+    }
+
+    public function setSerieName(string $serieName): static
+    {
+        $this->serieName = $serieName;
+
+        return $this;
+    }
+
+    public function getSerieNumber(): float
+    {
+        return $this->serieNumber;
+    }
+
+    public function setSerieNumber(float $serieNumber): static
+    {
+        $this->serieNumber = $serieNumber;    
+    
         return $this;
     }
 

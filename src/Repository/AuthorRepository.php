@@ -43,8 +43,8 @@ class AuthorRepository extends ServiceEntityRepository
         
         return $this->createQueryBuilder('a') 
             ->select('a')
-            ->orderBy('a.firstName', 'ASC')
-            ->orderBy('a.name', 'ASC')
+            ->addOrderBy('a.name', 'ASC')
+            ->addOrderBy('a.firstName', 'ASC')
             ->setFirstResult($firstResult)
             ->setMaxResults($nbResults)
             ->getQuery() 

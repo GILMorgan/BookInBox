@@ -12,6 +12,8 @@ class BookFactory
         $book->id = "1245-afdc-457ef-5f7fff";
         $book->openlibraryId = "OL45804W";
         $book->title = "Le monde de Bob";
+        $book->serieName = "The Bobyverse";
+        $book->serieNumber = 1;
         $book->authors = ["1547-dfcc-45d78-fe733"];
         $book->publishDate = "25/12/1978";
         $book->publisher = "Pingouin edition";

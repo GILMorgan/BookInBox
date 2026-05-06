@@ -18,6 +18,8 @@ class GoodReadParser
         $book = new Book();
         $book->id = (string )Uuid::v4();
         $book->openlibraryId = "";
+        $book->serieName = "";
+        $book->serieNumber = 0;
 
         $book = $this->extractJson($filepath, $book);
         $book = $this->getEditionDetails($filepath, $book);
