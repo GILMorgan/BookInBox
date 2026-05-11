@@ -89,7 +89,11 @@ class GoodReadParser
     {
         preg_match("/(.*\d{4}) by (.*)/", $publishInfo, $matches);
 
-        return [$matches[1], $matches[2]];
+        if (count($matches)) {
+            return [$matches[1], $matches[2]];
+        }
+
+        return ['', ''];
     }
 
     private function getGoodReadIdFromLink(string $href): string
