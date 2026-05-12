@@ -23,8 +23,6 @@ import axios from 'axios'
 
 const books = ref([])
 const currentPage = ref(1)
-const maxPage = ref(1)
-const pageLinks = ref([])
 const nbItems = ref(0)
 
 const params = {
@@ -53,27 +51,6 @@ const handleUpdate = function (event) {
         .catch(error => {
             console.error('Error fetching data:', error)
         })
-}
-
-/*const nextLink = function () {
-    if (currentPage.value < maxPage.value) {
-        currentPage.value++
-        getBooks()
-    }
-}*/
-
-const prevLink = function () {
-    if (currentPage.value > 1) {
-        currentPage.value--
-        getBooks()
-    }
-}
-
-const goToLink = function (page) {
-    if (currentPage.value !== page) {
-        currentPage.value = page
-        getBooks()
-    }
 }
 
 const getTitle = function (book) {

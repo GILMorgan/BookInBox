@@ -60,6 +60,20 @@ const nextLink = function () {
     }
 }
 
+const prevLink = function () {
+    if (currentPage.value > 1) {
+        currentPage.value--
+        emit('update', currentPage)
+    }
+}
+
+const goToLink = function (page) {
+    if (currentPage.value !== page) {
+        currentPage.value = page
+        emit('update', currentPage)
+    }
+}
+
 const emit = defineEmits(['update'])
 emit('update', currentPage);
 
