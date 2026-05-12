@@ -14,7 +14,8 @@
     }
 
     .activeLink {
-        color: red;
+        text-decoration: underline;
+        font-weight: bold;
     }
 </style>
 
