@@ -15,9 +15,11 @@ import './styles/app.css';
 import { createApp } from 'vue';
 import BookTable from './vue/components/bookTable.vue';
 import AuthorTable from './vue/components/authorTable.vue';
+import Paginator from './vue/components/paginator.vue';
 
 const app = createApp({})
 
 app.component('book-table', BookTable);
 app.component('author-table', AuthorTable);
+app.component('paginator', Paginator);
 app.mount("#app");
