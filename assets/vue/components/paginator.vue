@@ -12,13 +12,17 @@
         border-radius: 5px;
         cursor: pointer;
     }
+
+    .activeLink {
+        color: red;
+    }
 </style>
 
 <template>
 <nav>
     <a @click="prevLink()">&laquo;</a>
     <div v-for="pageLink in pageLinks">
-        <a @click="goToLink(pageLink)">{{ pageLink }}</a>
+        <a @click="goToLink(pageLink)" :class="{ activeLink: active(pageLink) }">{{ pageLink }}</a>
     </div>
     <a @click="nextLink()">&raquo;</a>
 </nav>
@@ -72,6 +76,10 @@ const goToLink = function (page) {
         currentPage.value = page
         emit('update', currentPage)
     }
+}
+
+const active = function (page) {
+    return page === currentPage.value
 }
 
 const emit = defineEmits(['update'])
