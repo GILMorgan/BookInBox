@@ -52,9 +52,13 @@ watchEffect(() => {
     }
     
     maxPage.value = Math.ceil(props.nbItems / 25)
+    pageLinks.value = []
+
+    let first, last
+    [first, last] = getFirstAndLastIndex()
     
-    for (var i = 0; i < maxPage.value; i++) {
-        pageLinks.value.push(i + 1)
+    for (var i = first; i <= last; i++) {
+        pageLinks.value.push(i)
     }
 })
 
@@ -77,6 +81,18 @@ const goToLink = function (page) {
         currentPage.value = page
         emit('update', currentPage)
     }
+}
+
+const getFirstAndLastIndex = function () {
+    if ((maxPage.value < 11) || (currentPage.value < 6)) {
+        return [1, 10]
+    }
+
+    if (currentPage.value + 4 < maxPage.value) {
+        return [currentPage.value - 4, currentPage.value + 5]
+    }
+
+    return [maxPage.value - 9, maxPage.value]
 }
 
 const active = function (page) {
