@@ -1,3 +1,13 @@
+<style scoped>
+table {
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+tbody > tr:nth-child(even) {
+    background: #bbb8b8;
+} 
+</style>
 <template>
     <table>
         <thead>
