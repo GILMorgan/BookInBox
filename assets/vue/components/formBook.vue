@@ -20,6 +20,26 @@
         <input v-model="serieName" type="text" />
     </div>
     <div class="row">
+        <span>Numéro</span>
+        <input v-model="serieNumber" type="text" />
+    </div>
+    <div class="row">
+        <span>Date de parution</span>
+        <input v-model="publishDate" type="text" />
+    </div>
+    <div class="row">
+        <span>Editeur</span>
+        <input v-model="publisher" type="text" />
+    </div>
+    <div class="row">
+        <span>ISBN 10</span>
+        <input v-model="isbn10" type="text" />
+    </div>
+    <div class="row">
+        <span>ISBN 13</span>
+        <input v-model="isbn13" type="text" />
+    </div>
+    <div class="row">
         <span>Auteur(s)</span>
         <div class="authors">
             <div v-for="author in authors" class="auteur">
@@ -54,6 +74,11 @@ const { urlAuthorSearch } = toRefs(props)
 const title = ref('')
 const authors = ref([])
 const serieName = ref('')
+const serieNumber = ref(0)
+const publishDate = ref('')
+const publisher = ref('')
+const isbn10 = ref('')
+const isbn13 = ref('')
 const nbPages = ref(0)
 
 function handleClick() {
@@ -68,6 +93,11 @@ function handleClick() {
         {
             'title': title.value,
             'serieName': serieName.value,
+            'serieNumber': serieNumber.value,
+            'publishDate': publishDate.value,
+            'publisher': publisher.value,
+            'isbn10': isbn10.value,
+            'isbn13': isbn13.value,
             'authors': authorsId.join(', '),
             'nbPages': nbPages.value,
         }
