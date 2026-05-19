@@ -78,4 +78,14 @@ class AuthorProvider implements AuthorProviderInterface
             $this->authorRepository->findPagined($page)
         );
     }
+
+    public function findByName(string $name): array
+    {
+        return array_map(
+            function ($author) {
+                return $this->authorSerializer->toDto($author);
+            },
+            $this->authorRepository->findByName($name)
+        ); 
+    } 
 } 

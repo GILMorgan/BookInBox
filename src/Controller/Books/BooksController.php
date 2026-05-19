@@ -36,4 +36,16 @@ final class BooksController extends AbstractController
             ]
         );
     }
+
+    #[Route('/books/addBook', name: 'app_books_add')]
+    public function addBookForm(): Response
+    {
+        return $this->render('books/books/add.html.twig');
+    }
+
+    #[Route('/api/books/add', name: 'app_api_books_add')]
+    public function addBook(Request $request): Response
+    {
+        return new JsonResponse();
+    }
 }

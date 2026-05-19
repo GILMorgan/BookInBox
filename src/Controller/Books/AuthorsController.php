@@ -36,4 +36,18 @@ final class AuthorsController extends AbstractController
             ]
         ); 
     }
+
+    #[Route('/api/authors/find', name: 'app_api_authors_find')]
+    public function findAuthors(Request $request): Response
+    {
+        $postValues = json_decode($request->getContent(), true);        
+
+        if (!isset($postValues['name'])) {
+            throw new \Exception("malformed query");
+        }
+
+        return new JsonResponse(
+            $this->authorProvider->findByName($postValues['name'])
+        );
+    }
 }

@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout livre{% endblock %}
+
+{% block body %}
+<h1>Ajout d'un livre</h1>
+
+<form-book url-submit="{{ path("app_api_books_add") }}" url-author-search="{{ path("app_api_authors_find") }}"></form-book>
+{% endblock %}
