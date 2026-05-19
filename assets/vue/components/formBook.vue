@@ -16,6 +16,10 @@
         <input v-model="title" type="text" />
     </div>
     <div class="row">
+        <span>Serie</span>
+        <input v-model="serieName" type="text" />
+    </div>
+    <div class="row">
         <span>Auteur(s)</span>
         <div class="authors">
             <div v-for="author in authors" class="auteur">
@@ -24,6 +28,10 @@
             </div>
         </div>
         <select-author :url="urlAuthorSearch" @authorSelected="addAuthor"></select-author>
+    </div>
+    <div class="row">
+        <span>Nombre de pages</span>
+        <input v-model="nbPages" type="number" />
     </div>
     <div>
         <button @click="handleClick">Ajouter</button>
@@ -45,6 +53,8 @@ const { urlSubmit } = toRefs(props)
 const { urlAuthorSearch } = toRefs(props)
 const title = ref('')
 const authors = ref([])
+const serieName = ref('')
+const nbPages = ref(0)
 
 function handleClick() {
     let authorsId = []
@@ -53,14 +63,13 @@ function handleClick() {
         authorsId.push(author.id)
     })
 
-
-    console.log(urlSubmit.value)
-
     axios.post(
         urlSubmit.value,
         {
             'title': title.value,
-//            'authors' : authorsId.join(', '),
+            'serieName': serieName.value,
+            'authors': authorsId.join(', '),
+            'nbPages': nbPages.value,
         }
     )/*.then(response => {
 

@@ -3,6 +3,7 @@
 namespace App\Controller\Books;
 
 use App\Providers\BookProvider;
+use App\Services\Books\BookSerializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,6 +47,11 @@ final class BooksController extends AbstractController
     #[Route('/api/books/add', name: 'app_api_books_add')]
     public function addBook(Request $request): Response
     {
+        $rawObject = json_decode($request->getContent());
+
+        
+
+
         return new JsonResponse();
     }
 }
