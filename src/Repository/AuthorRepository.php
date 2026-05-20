@@ -50,4 +50,17 @@ class AuthorRepository extends ServiceEntityRepository
             ->getQuery() 
             ->getResult();
     }
+
+    public function findByName(string $name, int $nbResults = 25): array
+    {
+        return $this->createQueryBuilder('a')
+            ->select('a')
+            ->where('a.name LIKE :name')
+            ->setParameter('name', '%' . $name . '%')
+            ->addOrderBy('a.name', 'ASC')
+            ->addOrderBy('a.firstName', 'ASC')
+            ->setMaxResults($nbResults)
+            ->getQuery() 
+            ->getResult();
+    }
 }

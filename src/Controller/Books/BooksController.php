@@ -3,6 +3,7 @@
 namespace App\Controller\Books;
 
 use App\Providers\BookProvider;
+use App\Services\Books\BookJson;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 final class BooksController extends AbstractController
 {
     public function __construct(
-        private readonly BookProvider $bookProvider
+        private readonly BookProvider $bookProvider,    
+        private readonly BookJson $bookJson,
     ) {
     }
 
@@ -35,5 +37,21 @@ final class BooksController extends AbstractController
             "nbBooks" => $nbBooks,
             ]
         );
+    }
+
+    #[Route('/books/addBook', name: 'app_books_add')]
+    public function addBookForm(): Response
+    {
+        return $this->render('books/books/add.html.twig');
+    }
+
+    #[Route('/api/books/add', name: 'app_api_books_add')]
+    public function addBook(Request $request): Response
+    {
+        $book = $this->bookJson->toDto($request->getContent());
+
+        $this->bookProvider->save($book);
+
+        return new JsonResponse();
     }
 }

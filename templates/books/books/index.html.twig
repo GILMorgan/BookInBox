@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BooksController!{% endblock %}
+{% block title %}Livres{% endblock %}
 
 {% block body %}
+    <a href="{{ path('app_books_add') }}">
+        Ajouter un livre
+    </a>
     <book-table url="{{ path('app_api_books') }}"></book-table>
 {% endblock %}

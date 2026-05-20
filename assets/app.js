@@ -16,10 +16,14 @@ import { createApp } from 'vue';
 import BookTable from './vue/components/bookTable.vue';
 import AuthorTable from './vue/components/authorTable.vue';
 import Paginator from './vue/components/paginator.vue';
+import SelectAuthor from './vue/components/selectAuthor.vue';
+import FormBook from './vue/components/formBook.vue';
 
 const app = createApp({})
 
 app.component('book-table', BookTable);
 app.component('author-table', AuthorTable);
 app.component('paginator', Paginator);
+app.component('select-author', SelectAuthor);
+app.component('form-book', FormBook);
 app.mount("#app");
