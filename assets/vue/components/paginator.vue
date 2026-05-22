@@ -85,7 +85,7 @@ const goToLink = function (page) {
 
 const getFirstAndLastIndex = function () {
     if ((maxPage.value < 11) || (currentPage.value < 6)) {
-        return [1, 10]
+        return [1, Math.min(maxPage.value, 10)]
     }
 
     if (currentPage.value + 4 < maxPage.value) {
