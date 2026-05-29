@@ -5,6 +5,7 @@ namespace App\Services\Books;
 use App\Entity\Book as BookEntity;
 use App\Domain\Books\DTO\Book;
 use App\Repository\AuthorRepository;
+use App\Services\Books\AuthorSerializer;
 
 final class BookSerializer
 {
@@ -40,13 +41,20 @@ final class BookSerializer
 
     public function toDto(BookEntity $bookEntity): Book
     {
+        $authorSerializer = new AuthorSerializer();
+
         $dto = new Book();
         $dto->id = $bookEntity->getId();
         $dto->openlibraryId = $bookEntity->getOpenlibraryId();
         $dto->title = $bookEntity->getTitle();
         $dto->serieName = $bookEntity->getSerieName();
         $dto->serieNumber = $bookEntity->getSerieNumber();
-        $dto->authors = $bookEntity->getAuthors();
+        $dto->authors = array_map(
+            function ($author) use ($authorSerializer) {
+                return $authorSerializer->toDto($author);
+            },
+            $bookEntity->getAuthors()
+        );
         $dto->publishDate = $bookEntity->getPublishDate();
         $dto->publisher = $bookEntity->getPublisher();
         $dto->isbn10 = $bookEntity->getIsbn10();

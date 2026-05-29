@@ -5,7 +5,7 @@ namespace tests\Services\Books;
 use App\Repository\AuthorRepository;
 use App\Services\Books\BookSerializer;
 use App\Entity\Author;
-use App\Entity\Book;
+use tests\Entity\BookFactory as EntityBookFactory;
 use tests\Domain\Books\BookFactory;
 use PHPUnit\Framework\TestCase;
 use Mockery;
@@ -36,31 +36,19 @@ class BookSerializerTest extends TestCase
 
     public function testToDto()
     {
-        $entity = new Book();
-        $entity
-            ->setId("1245-afdc-457ef-5f7fff")
-            ->setOpenlibraryId("OL45804W")
-            ->setTitle("Le monde de Bob")
-            ->setSerieName("Bobyverse 1")
-            ->setSerieNumber(1)
-            ->setAuthors(["1547-dfcc-45d78-fe733"])
-            ->setPublishDate("25/12/1978")
-            ->setPublisher("Pingouin edition")
-            ->setIsbn10("0140328726")
-            ->setIsbn13("9780140328721")
-            ->setNumberOfPages(130)
-        ;
+        $book = EntityBookFactory::getBook();
+
         $authorRepository = Mockery::mock(AuthorRepository::class);
 
         $bookSerializer = new BookSerializer($authorRepository);
-        $dto = $bookSerializer->toDto($entity); 
+        $dto = $bookSerializer->toDto($book); 
 
         $this->assertSame("1245-afdc-457ef-5f7fff", $dto->id);
         $this->assertSame("OL45804W", $dto->openlibraryId);
         $this->assertSame("Le monde de Bob", $dto->title);
         $this->assertSame("Bobyverse 1", $dto->serieName);
         $this->assertSame(1.0, $dto->serieNumber);
-        $this->assertSame(["1547-dfcc-45d78-fe733"], $dto->authors);
+        $this->assertSame("1547-dfcc-45d78-fe733", $dto->authors[0]->id);
         $this->assertSame("25/12/1978", $dto->publishDate);
         $this->assertSame("Pingouin edition", $dto->publisher);
         $this->assertSame("0140328726", $dto->isbn10);
