@@ -69,11 +69,13 @@ class BookRepository extends ServiceEntityRepository
             inner join book b on b.id = ba.book_id 
             inner join author a on a.id = ba.author_id 
             order by a.name, a.first_name, b.serie_name, b.serie_number, b.title
-            limit 25 
-            offset 0
+            limit :nbResults 
+            offset :firstResult
         ";
 
         $stmt = $conn->prepare($sql);
+        $stmt->bindValue('nbResults', $nbResults);
+        $stmt->bindValue('firstResult', $firstResult);
         $results = $stmt->executeQuery()->fetchAllAssociative();
 
         return array_map(
