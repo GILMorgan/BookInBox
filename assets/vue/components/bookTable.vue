@@ -74,7 +74,10 @@ const getTitle = function (book) {
 const getName = function (book) {
     if (book.authors[0]) {
         let completeName = []
-        book.authors.forEach(function (author) {
+
+        book.authors
+        .sort((a, b) => ('' + a.name).localeCompare(b.name))
+        .forEach(function (author) {
             completeName.push(author.name + " " + author.firstName) 
         })
 
