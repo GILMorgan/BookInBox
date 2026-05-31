@@ -11,6 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Yaml\Yaml;
 use App\Providers\BookProvider;
+use App\Services\Books\BookSerializer;
 
 #[AsCommand(
     name: 'bookinbox:db:export',
@@ -19,7 +20,8 @@ use App\Providers\BookProvider;
 class BookinboxDbExportCommand extends Command
 {
     public function __construct(
-        private readonly BookProvider $bookProvider
+        private readonly BookProvider $bookProvider,
+        private readonly BookSerializer $bookSerializer
     )
     {
         parent::__construct();
@@ -31,25 +33,8 @@ class BookinboxDbExportCommand extends Command
 
         $io = new SymfonyStyle($input, $output);
 
-        foreach ($books as $book) {            
-            $authors = array_map(
-                function ($author) {
-                    return $author->id;
-                },
-                $book->authors
-            );    
-
-            $yaml[$book->id] = [
-                'title' => $book->title,
-                'serieName' => $book->serieName,
-                'serieNumber' => $book->serieNumber,
-                'authors' => $authors,
-                'publishDate' => $book->publishDate,
-                'publisher' => $book->publisher,
-                'isbn10' => $book->isbn10,
-                'isbn13' => $book->isbn13,
-                'numberOfPages' => $book->numberOfPages
-            ];        
+        foreach ($books as $book) {                          
+            $yaml[$book->id] = $this->bookSerializer->toArray($book);       
         }
 
         file_put_contents(__DIR__ . "/export-book.yaml", Yaml::dump($yaml));

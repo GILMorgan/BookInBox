@@ -6,6 +6,7 @@ use App\Entity\Book as BookEntity;
 use App\Domain\Books\DTO\Book;
 use App\Repository\AuthorRepository;
 use App\Services\Books\AuthorSerializer;
+use App\Services\Books\BookSerializer;
 
 final class BookSerializer
 {
@@ -62,5 +63,29 @@ final class BookSerializer
         $dto->numberOfPages = $bookEntity->getNumberOfPages();
 
         return $dto;
+    }
+
+    public function toArray(Book $book): array
+    {
+        $authorSerializer = new AuthorSerializer();
+
+        return [
+            'id' => $book->id,
+            'openlibraryId' => $book->openlibraryId,
+            'title' => $book->title,
+            'serieName' => $book->serieName,
+            'serieNumber' => $book->serieNumber,
+            'authors' => array_map(
+                function ($author) use ($authorSerializer) {
+                    return $authorSerializer->toArray($author);
+                },
+                $book->authors
+            ),
+            'publishDate' => $book->publishDate,
+            'publisher' => $book->publisher,
+            'isbn10' => $book->isbn10,
+            'isbn13' => $book->isbn13,
+            'numberOfPages' => $book->numberOfPages,
+        ];
     }
 }
