@@ -3,6 +3,7 @@
 namespace tests\Domain\Books;
 
 use App\Domain\Books\DTO\Book;
+use tests\Domain\Books\AuthorFactory;
 
 class BookFactory
 {
@@ -14,7 +15,7 @@ class BookFactory
         $book->title = "Le monde de Bob";
         $book->serieName = "The Bobyverse";
         $book->serieNumber = 1;
-        $book->authors = ["1547-dfcc-45d78-fe733"];
+        $book->authors = [AuthorFactory::getAuthor()];
         $book->publishDate = "25/12/1978";
         $book->publisher = "Pingouin edition";
         $book->isbn10 = "0140328726";

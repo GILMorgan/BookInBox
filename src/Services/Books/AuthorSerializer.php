@@ -31,4 +31,15 @@ class AuthorSerializer
 
         return $author;
     }
+
+    public function toArray(Author $author): array
+    {
+        return [
+            "id" => $author->id,
+            "birthDate" => $author->birthDate,
+            "firstName" => $author->firstName,
+            "goodreadId" => $author->goodreadId,
+            "name" => $author->name
+        ];
+    }
 }

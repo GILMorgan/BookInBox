@@ -2,12 +2,12 @@
 
 namespace tests\Providers;
 
-use App\Entity\Book;
 use App\Providers\BookProvider;
 use App\Repository\BookRepository;
 use App\Repository\AuthorRepository;
 use App\Services\Books\BookSerializer;
 use tests\Domain\Books\BookFactory;
+use tests\Entity\BookFactory as EntityBookFactory;
 use PHPUnit\Framework\TestCase;
 use Mockery;
 
@@ -34,20 +34,7 @@ class BookProviderTest extends TestCase
     public function testGetAll()
     {
         $dto = BookFactory::getBook();
-        $entity = new Book();
-        $entity
-            ->setId("1245-afdc-457ef-5f7fff")
-            ->setOpenLibraryId("OL45804W")
-            ->setTitle("title")
-            ->setSerieName("")
-            ->setSerieNumber(0)
-            ->setAuthors(["authorId"])
-            ->setPublishDate("25/12/1978")
-            ->setPublisher("Pingouin editions")
-            ->setIsbn10("isbn10")
-            ->setIsbn13("isbn13")
-            ->setNumberOfPages(150)
-        ;
+        $entity = EntityBookFactory::getBook();
 
         $bookRepository = Mockery::mock(BookRepository::class);
         $bookRepository->shouldReceive("findAll")->andReturn([$entity]);
