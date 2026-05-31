@@ -46,7 +46,9 @@
 
 			<header class="navbar menu-bar">
 				<div class="container row">
+                    {% if is_granted('ROLE_ADMIN')%}
 					<a class="menu-bar-item" href="{{ path(name = "app_admin_user") }}">Utilisateurs</a>
+                    {% endif %}
                     <a class="menu-bar-item" href="{{ path(name = "app_books_authors") }}">Auteurs</a>
                     <a class="menu-bar-item" href="{{ path(name = "app_books_books") }}">Livres</a>
 				</div>
