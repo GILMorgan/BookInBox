@@ -51,7 +51,7 @@ watchEffect(() => {
         return
     }
     
-    maxPage.value = Math.ceil(props.nbItems / 25)
+    maxPage.value = Math.ceil(props.nbItems / 25) + 1
     pageLinks.value = []
 
     let first, last
