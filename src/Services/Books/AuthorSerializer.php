@@ -5,9 +5,9 @@ namespace App\Services\Books;
 use App\Domain\Books\DTO\Author;
 use App\Entity\Author as Entity;
 
-class AuthorSerializer
+final class AuthorSerializer
 {
-    public function toEntity(Author $author): Entity
+    public static function toEntity(Author $author): Entity
     {
         $entity = new Entity();
         $entity
@@ -20,7 +20,7 @@ class AuthorSerializer
         return $entity;
     }
 
-    public function toDto(Entity $entity): Author
+    public static function toDto(Entity $entity): Author
     {
         $author = new Author();
         $author->id = $entity->getId();
@@ -30,16 +30,5 @@ class AuthorSerializer
         $author->name = $entity->getName();
 
         return $author;
-    }
-
-    public function toArray(Author $author): array
-    {
-        return [
-            "id" => $author->id,
-            "birthDate" => $author->birthDate,
-            "firstName" => $author->firstName,
-            "goodreadId" => $author->goodreadId,
-            "name" => $author->name
-        ];
     }
 }
