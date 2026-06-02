@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity()]
+#[ORM\HasLifecycleCallbacks]
 class Book
 {
     #[ORM\Id]
@@ -43,6 +44,9 @@ class Book
     
     #[ORM\Column]
     private int $numberOfPages;
+
+    #[ORM\Column(options: ["default" => ""])]
+    private string $sortAuthors;
 
     public function getId(): string
     {
@@ -174,5 +178,17 @@ class Book
         $this->numberOfPages = $numberOfPages;    
 
         return $this;
+    }
+    
+    public function updateBook()
+    {
+        $authors = [];
+        foreach($this->authors as $author) {
+            $authors[] = $author->getName() . " " . $author->getFirstName();
+        }
+
+        sort($authors);
+
+        $this->sortAuthors = implode(",", $authors);
     }
 }

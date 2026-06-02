@@ -22,8 +22,7 @@ class BookinboxDbExportCommand extends Command
     public function __construct(
         private readonly BookProvider $bookProvider,
         private readonly BookSerializer $bookSerializer
-    )
-    {
+    ) {
         parent::__construct();
     }
 

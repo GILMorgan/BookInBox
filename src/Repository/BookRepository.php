@@ -47,43 +47,19 @@ class BookRepository extends ServiceEntityRepository
         return intval($res); 
     }
 
-    /**
-     * A simple query will be to complex for dql due to agregation (many to many join with authors)
-     * the "in" function doesn't preserve order, so I have to loop manualy
-     */ 
     public function findPagined(int $page, int $nbResults = 25): array
     {
         $firstResult = ($page -1) * $nbResults;
 
-        $conn = $this->getEntityManager()->getConnection();
-
-        $sql = "
-            select 
-                distinct(book_id), 
-                a.name, 
-                a.first_name, 
-                b.serie_name,
-                b.serie_number,
-                b.title
-            from book_author ba 
-            inner join book b on b.id = ba.book_id 
-            inner join author a on a.id = ba.author_id 
-            order by a.name, a.first_name, b.serie_name, b.serie_number, b.title
-            limit :nbResults 
-            offset :firstResult
-        ";
-
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue('nbResults', $nbResults);
-        $stmt->bindValue('firstResult', $firstResult);
-        $results = $stmt->executeQuery()->fetchAllAssociative();
-
-        return array_map(
-            function ($result) {
-                return $this->find($result['book_id']);
-            },
-            $results
-        );
+        return $this->createQueryBuilder('b')
+            ->addOrderBy("b.sortAuthors")
+            ->addOrderBy("b.serieName")
+            ->addOrderBy("b.serieNumber")
+            ->addOrderBy("b.title")
+            ->setFirstResult($firstResult)
+            ->setMaxResults($nbResults)
+            ->getQuery()
+            ->getResult();
     }
 }
 
