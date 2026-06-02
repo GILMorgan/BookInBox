@@ -72,7 +72,7 @@ class AuthorProvider implements AuthorProviderInterface
     {
         return array_map(
             function ($author) {
-                return $this->authorSerializer->toDto($author);
+                return AuthorSerializer::toDto($author);
             },
             $this->authorRepository->findPagined($page)
         );
@@ -82,7 +82,7 @@ class AuthorProvider implements AuthorProviderInterface
     {
         return array_map(
             function ($author) {
-                return $this->authorSerializer->toDto($author);
+                return AuthorSerializer::toDto($author);
             },
             $this->authorRepository->findByName($name)
         ); 
