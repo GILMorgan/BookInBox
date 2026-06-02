@@ -11,14 +11,13 @@ class AuthorProvider implements AuthorProviderInterface
 {
     public function __construct(
         private readonly AuthorRepository $authorRepository,
-        private readonly AuthorSerializer $authorSerializer
     ) {
     }
 
     public function save(Author $author): Author
     {
         $this->authorRepository->save(
-            $this->authorSerializer->toEntity($author)
+            AuthorSerializer::toEntity($author)
         );
 
         return $author;
@@ -42,7 +41,7 @@ class AuthorProvider implements AuthorProviderInterface
     {
         return array_map(
             function ($author) {
-                return $this->authorSerializer->toDto($author);
+                return AuthorSerializer::toDto($author);
             },
             $this->authorRepository->findAll()
         );
@@ -61,7 +60,7 @@ class AuthorProvider implements AuthorProviderInterface
             );
         }
 
-        return $this->authorSerializer->toDto($author);    
+        return AuthorSerializer::toDto($author);    
     }
 
     public function getNbOfAuthors(): int

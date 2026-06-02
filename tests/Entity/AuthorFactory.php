@@ -10,9 +10,10 @@ class AuthorFactory
     {
         return (new Author)
             ->setId("1547-dfcc-45d78-fe733")
-            ->setBirthDate("")
-            ->setGoodreadId("")
-            ->setName("")
+            ->setBirthDate("25/12/1978")
+            ->setGoodreadId("goodReadId")
+            ->setName("The writer")
+            ->setFirstName("Bob")
         ;
     }
 }

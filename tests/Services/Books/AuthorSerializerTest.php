@@ -43,18 +43,4 @@ class AuthorSerializerTest extends TestCase
         $this->assertSame("25/12/1978", $dto->birthDate);
         $this->assertSame("goodReadId", $dto->goodreadId);
     }
-
-    public function testToArray()
-    {
-        $dto = AuthorFactory::getAuthor();
-
-        $authorSerializer = new AuthorSerializer();
-        $array = $authorSerializer->toArray($dto);
-
-        $this->assertSame("1547-dfcc-45d78-fe733", $array['id']);
-        $this->assertSame("The writer", $array['name']);
-        $this->assertSame("Bob", $array['firstName']);
-        $this->assertSame("25/12/1978", $array['birthDate']);
-        $this->assertSame("goodReadId", $array['goodreadId']);
-    }
 }

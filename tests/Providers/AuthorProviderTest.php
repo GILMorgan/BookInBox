@@ -2,11 +2,11 @@
 
 namespace tests\Providers;
 
-use App\Entity\Author;
 use App\Repository\AuthorRepository;
 use App\Services\Books\AuthorSerializer;
 use App\Providers\AuthorProvider;
 use tests\Domain\Books\AuthorFactory;
+use tests\Entity\AuthorFactory as AuthorEntityFactory;
 use PHPUnit\Framework\TestCase;
 use Mockery;
 
@@ -18,13 +18,7 @@ class AuthorProviderTest extends TestCase
         $authorRepository = Mockery::mock(AuthorRepository::class);
         $authorRepository->shouldReceive("save")->andReturnArg(0);
 
-        $authorSerializer = Mockery::mock(AuthorSerializer::class);
-        $authorSerializer->shouldReceive("toEntity")->andReturn(new Author());
-
-        $authorProvider = new AuthorProvider(
-            $authorRepository,
-            $authorSerializer
-        );
+        $authorProvider = new AuthorProvider($authorRepository);
         $this->assertSame($dto, $authorProvider->save($dto));
     }
 
@@ -32,15 +26,10 @@ class AuthorProviderTest extends TestCase
     {
         $dto = AuthorFactory::getAuthor();
         $authorRepository = Mockery::mock(AuthorRepository::class);
-        $authorRepository->shouldReceive("find")->andReturn(new Author());
+        $authorRepository->shouldReceive("find")->andReturn(AuthorEntityFactory::getAuthor());
         $authorRepository->shouldReceive("delete");
 
-        $authorSerializer = Mockery::mock(AuthorSerializer::class);
-
-        $authorProvider = new AuthorProvider(
-            $authorRepository,
-            $authorSerializer
-        );
+        $authorProvider = new AuthorProvider($authorRepository);
 
         $this->assertNull($authorProvider->delete($dto));
     }
@@ -49,17 +38,12 @@ class AuthorProviderTest extends TestCase
     {
         $dto = AuthorFactory::getAuthor();
         $authorRepository = Mockery::mock(AuthorRepository::class);
-        $authorRepository->shouldReceive("findAll")->andReturn([new Author()]);
+        $authorRepository->shouldReceive("findAll")->andReturn([AuthorEntityFactory::getAuthor()]);
 
-        $authorSerializer = Mockery::mock(AuthorSerializer::class);
-        $authorSerializer->shouldReceive("toDto")->andReturn($dto);
+        $authorProvider = new AuthorProvider($authorRepository);
+        $authors = $authorProvider->getAll();
 
-        $authorProvider = new AuthorProvider(
-            $authorRepository,
-            $authorSerializer
-        );
-
-        $this->assertSame([$dto], $authorProvider->getAll());
+        $this->assertSame($dto->id, $authors[0]->id);
     }
 
     public function testGetByGoodreadIdFound()
@@ -67,17 +51,11 @@ class AuthorProviderTest extends TestCase
         $dto = AuthorFactory::getAuthor();
 
         $authorRepository = Mockery::mock(AuthorRepository::class);
-        $authorRepository->shouldReceive("findOneByGoodreadId")->andReturn(new Author());
+        $authorRepository->shouldReceive("findOneByGoodreadId")->andReturn(AuthorEntityFactory::getAuthor());
 
-        $authorSerializer = Mockery::mock(AuthorSerializer::class);
-        $authorSerializer->shouldReceive("toDto")->andReturn($dto);       
+        $authorProvider = new AuthorProvider($authorRepository);
 
-        $authorProvider = new AuthorProvider(
-            $authorRepository,
-            $authorSerializer
-        );
-
-        $this->assertSame($dto, $authorProvider->getByGoodreadId("goodReadId"));
+        $this->assertSame($dto->id, $authorProvider->getByGoodreadId("goodReadId")->id);
     }
 
     public function testGetByGoodreadIdNotFound()
@@ -85,12 +63,7 @@ class AuthorProviderTest extends TestCase
         $authorRepository = Mockery::mock(AuthorRepository::class);
         $authorRepository->shouldReceive("findOneByGoodreadId")->andReturnNull();
 
-        $authorSerializer = Mockery::mock(AuthorSerializer::class);
-
-        $authorProvider = new AuthorProvider(
-            $authorRepository,
-            $authorSerializer
-        );
+        $authorProvider = new AuthorProvider($authorRepository);
 
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Couldn't find author with the goodread id goodReadId");
