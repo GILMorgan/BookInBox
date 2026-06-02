@@ -84,7 +84,7 @@ class AuthorProviderTest extends TestCase
 
     public function testGetPage()
     {
-         $dto = AuthorFactory::getAuthor();
+        $dto = AuthorFactory::getAuthor();
 
         $authorRepository = Mockery::mock(AuthorRepository::class);
         $authorRepository->shouldReceive("findPagined")->andReturn([AuthorEntityFactory::getAuthor()]);

@@ -179,7 +179,8 @@ class Book
 
         return $this;
     }
-    
+
+    #[ORM\PrePersist] 
     public function updateBook()
     {
         $authors = [];
