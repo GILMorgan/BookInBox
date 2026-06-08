@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Book;
+use App\Entity\UserCollection;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -60,6 +61,24 @@ class BookRepository extends ServiceEntityRepository
             ->setMaxResults($nbResults)
             ->getQuery()
             ->getResult();
+    }
+
+    public function findPaginedFromUser(string $userId, int $page, $nbResults = 25): array
+    {
+        $firstResult = ($page -1) * $nbResults;
+
+        return $this->createQueryBuilder('b')
+            ->innerJoin(UserCollection::class, 'u', 'WITH', 'u.bookId = b.id AND u.userId = :userId')
+            ->addOrderBy("b.sortAuthors")
+            ->addOrderBy("b.serieName")
+            ->addOrderBy("b.serieNumber")
+            ->addOrderBy("b.title")
+            ->setParameter('userId', $userId)
+            ->setFirstResult($firstResult)
+            ->setMaxResults($nbResults)
+            ->getQuery()
+            ->getResult();
+
     }
 }
 
