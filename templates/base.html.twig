@@ -32,6 +32,7 @@
 							{% if is_granted('ROLE_USER') is same as true %}
 								<a data-toggle="dropdown-menu">{{ app.user.email }}</a>
 								<div class="dropdown-menu" aria-expended="false">
+                                    <a href="{{ path(name = "app_books_mybooks") }}" class="dropdown-item">Mes livres</a><br/>
 									<a href="{{ path(name = "app_logout") }}" class="dropdown-item">Déconnection</a>
 								</div>
 							{% else %}

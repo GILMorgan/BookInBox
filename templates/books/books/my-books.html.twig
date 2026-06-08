@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Livres{% endblock %}
+
+{% block body %}
+    <book-table url="{{ path('app_api_my-books') }}"></book-table>
+{% endblock %}

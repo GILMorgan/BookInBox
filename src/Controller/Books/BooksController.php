@@ -3,6 +3,7 @@
 namespace App\Controller\Books;
 
 use App\Providers\BookProvider;
+use App\Providers\MyBookProvider;
 use App\Services\Books\BookJson;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,7 +14,8 @@ use Symfony\Component\HttpFoundation\Request;
 final class BooksController extends AbstractController
 {
     public function __construct(
-        private readonly BookProvider $bookProvider,    
+        private readonly BookProvider $bookProvider,
+        private readonly MyBookProvider $myBookProvider,
         private readonly BookJson $bookJson,
     ) {
     }
@@ -22,6 +24,12 @@ final class BooksController extends AbstractController
     public function index(): Response
     {
         return $this->render('books/books/index.html.twig');
+    }
+
+    #[Route('/books/my-books', name: 'app_books_mybooks')]
+    public function myBooks(): Response
+    {
+        return $this->render('books/books/my-books.html.twig');
     }
 
     #[Route('/api/books', name: 'app_api_books')]
@@ -33,8 +41,23 @@ final class BooksController extends AbstractController
 
         return new JsonResponse(
             [
-            "books" => $books,
-            "nbBooks" => $nbBooks,
+                "books" => $books,
+                "nbBooks" => $nbBooks,
+            ]
+        );
+    }
+
+    #[Route('/api/my_book', name: 'app_api_my-books')]
+    public function getMyBooks(Request $request): Response
+    {
+        $page = (int) $request->query->get('page', 1);
+        $books = $this->myBookProvider->getPage($page);
+        $nbBooks = $this->myBookProvider->getNbOfBooks();
+
+        return new JsonResponse(
+            [
+                "books" => $books,
+                "nbBooks" => $nbBooks,
             ]
         );
     }
