@@ -6,6 +6,7 @@ use App\Repository\AuthorRepository;
 use App\Services\Books\AuthorSerializer;
 use App\Domain\Books\Contract\AuthorProviderInterface;
 use App\Domain\Books\DTO\Author;
+use App\Providers\Exception\AuthorNotFoundException;
 
 class AuthorProvider implements AuthorProviderInterface
 {
@@ -52,7 +53,7 @@ class AuthorProvider implements AuthorProviderInterface
         $author =  $this->authorRepository->findOneByGoodreadId($goodreadId);
 
         if (!$author) {
-            throw new \Exception(
+            throw new AuthorNotFoundException(
                 sprintf(
                     "Couldn't find author with the goodread id %s",
                     $goodreadId
