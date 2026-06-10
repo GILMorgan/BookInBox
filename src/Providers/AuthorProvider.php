@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Repository\AuthorRepository;
 use App\Services\Books\AuthorSerializer;
 use App\Domain\Books\Contract\AuthorProviderInterface;
-use App\Domain\Books\DTO\Author;
+use App\Domain\Books\DVO\Author;
 use App\Providers\Exception\AuthorNotFoundException;
 
 class AuthorProvider implements AuthorProviderInterface
