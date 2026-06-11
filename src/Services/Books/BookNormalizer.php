@@ -2,7 +2,7 @@
 
 namespace App\Services\Books;
 
-use App\Domain\Books\DTO\Book;
+use App\Domain\Books\DVO\Book;
 
 final class BookNormalizer
 {

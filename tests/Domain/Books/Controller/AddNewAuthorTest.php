@@ -3,7 +3,7 @@
 namespace tests\Domain\Books\Controller;
 
 use PHPUnit\Framework\TestCase;
-use App\Domain\Books\DTO\Author;
+use App\Domain\Books\DVO\Author;
 use App\Domain\Books\Controller\AddNewAuthor;
 use App\Domain\Books\Contract\AuthorProviderInterface;
 use App\Domain\Books\Controller\Exception\AuthorAllReadyExistException;

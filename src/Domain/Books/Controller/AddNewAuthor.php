@@ -2,7 +2,7 @@
 
 namespace App\Domain\Books\Controller;
 
-use App\Domain\Books\DTO\Author;
+use App\Domain\Books\DVO\Author;
 use App\Domain\Books\Contract\AuthorProviderInterface;
 use App\Domain\Books\Controller\Exception\AuthorAllReadyExistException;
 use App\Providers\Exception\AuthorNotFoundException;

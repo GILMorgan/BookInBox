@@ -2,7 +2,7 @@
 
 namespace App\Domain\Books\Contract;
 
-use App\Domain\Books\DTO\Book;
+use App\Domain\Books\DVO\Book;
 
 interface BookProviderInterface
 {

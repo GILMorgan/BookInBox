@@ -4,7 +4,7 @@ namespace tests\Services\Books;
 
 use App\Services\Books\OpenLibraryApi;
 use App\Services\Books\OpenLibrarySerializers\AuthorSerializer;
-use App\Domain\Books\DTO\Author;
+use App\Domain\Books\DVO\Author;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use PHPUnit\Framework\TestCase;
