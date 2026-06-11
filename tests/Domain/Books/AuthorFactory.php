@@ -2,7 +2,7 @@
 
 namespace tests\Domain\Books;
 
-use App\Domain\Books\DTO\Author;
+use App\Domain\Books\DVO\Author;
 
 class AuthorFactory
 {

@@ -2,7 +2,7 @@
 
 namespace App\Services\Books\OpenLibrarySerializers;
 
-use App\Domain\Books\DTO\Author;
+use App\Domain\Books\DVO\Author;
 use Symfony\Component\Uid\Uuid;
 
 class AuthorSerializer

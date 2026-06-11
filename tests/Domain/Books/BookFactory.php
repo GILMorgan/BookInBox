@@ -2,7 +2,7 @@
 
 namespace tests\Domain\Books;
 
-use App\Domain\Books\DTO\Book;
+use App\Domain\Books\DVO\Book;
 use tests\Domain\Books\AuthorFactory;
 
 class BookFactory

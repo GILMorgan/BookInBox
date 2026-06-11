@@ -3,7 +3,7 @@
 namespace App\Services\Books;
 
 use App\Entity\Book as BookEntity;
-use App\Domain\Books\DTO\Book;
+use App\Domain\Books\DVO\Book;
 use App\Repository\AuthorRepository;
 use App\Services\Books\AuthorSerializer;
 use App\Services\Books\BookSerializer;

@@ -2,7 +2,7 @@
 
 namespace App\Services\Books;
 
-use App\Domain\Books\DTO\Author;
+use App\Domain\Books\DVO\Author;
 use App\Entity\Author as Entity;
 
 final class AuthorSerializer

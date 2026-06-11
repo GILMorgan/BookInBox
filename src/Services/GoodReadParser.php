@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Domain\Books\DTO\Book;
+use App\Domain\Books\DVO\Book;
 use App\Domain\Books\Contract\AuthorProviderInterface;
 use Symfony\Component\Uid\Uuid;
 

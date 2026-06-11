@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Repository\BookRepository;
 use App\Services\Books\BookSerializer;
-use App\Domain\Books\DTO\Book;
+use App\Domain\Books\DVO\Book;
 use App\Domain\Books\Contract\BookProviderInterface;
 
 class BookProvider implements BookProviderInterface

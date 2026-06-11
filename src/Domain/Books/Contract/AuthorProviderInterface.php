@@ -2,7 +2,7 @@
 
 namespace App\Domain\Books\Contract;
 
-use App\Domain\Books\DTO\Author;
+use App\Domain\Books\DVO\Author;
 
 interface AuthorProviderInterface
 {

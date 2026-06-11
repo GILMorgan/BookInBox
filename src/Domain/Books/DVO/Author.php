@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Books\DTO;
+namespace App\Domain\Books\DVO;
 
 final class Author
 {
