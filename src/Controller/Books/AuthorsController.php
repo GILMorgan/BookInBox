@@ -2,9 +2,10 @@
 
 namespace App\Controller\Books;
 
-use App\Domain\Books\Contract\AuthorProviderInterface;
 use App\Domain\Books\DTO\GetAuthorPageParams;
+use App\Domain\Books\DTO\SearchAuthorParams;
 use App\Domain\Books\Controller\GetAuthorPage;
+use App\Domain\Books\Controller\SearchAuthor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,8 +15,8 @@ use Symfony\Component\HttpFoundation\Request;
 final class AuthorsController extends AbstractController
 {
     public function __construct(
-        private readonly AuthorProviderInterface $authorProvider,
-        private readonly GetAuthorPage $getAuthorPage
+        private readonly GetAuthorPage $getAuthorPage,
+        private readonly SearchAuthor $searchAuthor
     ) {    
     }
 
@@ -44,8 +45,10 @@ final class AuthorsController extends AbstractController
             throw new \Exception("malformed query");
         }
 
+        $result = $this->searchAuthor->searchAuthor(new SearchAuthorParams($postValues['name']));
+
         return new JsonResponse(
-            $this->authorProvider->findByName($postValues['name'])
+            $result->authors
         );
     }
 }
