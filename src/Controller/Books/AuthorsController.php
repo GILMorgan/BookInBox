@@ -29,7 +29,7 @@ final class AuthorsController extends AbstractController
     #[Route('/api/authors', name: 'app_api_authors')]
     public function getAuthors(Request $request): Response
     {
-       return new JsonResponse(
+        return new JsonResponse(
             $this->getAuthorPage->getAuthorPage(
                 new GetAuthorPageParams((int) $request->query->get('page', 1))
             )

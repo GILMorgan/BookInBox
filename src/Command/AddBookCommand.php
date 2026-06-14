@@ -2,9 +2,7 @@
 
 namespace App\Command;
 
-
-use App\Entity\Book;
-use App\Providers\BookProvider;
+use App\Domain\Books\Controller\AddBook;
 use App\Services\GoodReadParser;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -21,8 +19,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class AddBookCommand extends Command
 {
     public function __construct(
-        private readonly BookProvider $bookProvider,
-        private readonly GoodReadParser $goodReadParser
+        private readonly GoodReadParser $goodReadParser,
+        private readonly AddBook $addBook
     ) {
         parent::__construct();
     }
@@ -33,7 +31,7 @@ class AddBookCommand extends Command
         foreach (new \DirectoryIterator(__DIR__) as $fileInfo) {        
             if ($fileInfo->getExtension() === "html") {
                 $dto = $this->goodReadParser->parse($fileInfo->getPathName());
-                $this->bookProvider->save($dto);
+                $this->addBook->addBook($dto);
             }
         }
    

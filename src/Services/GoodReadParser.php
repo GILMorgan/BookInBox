@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Domain\Books\DVO\Book;
+use App\Domain\Books\DTO\SaveBookParams;
 use App\Domain\Books\Contract\AuthorProviderInterface;
-use Symfony\Component\Uid\Uuid;
+//use Symfony\Component\Uid\Uuid;
 
 class GoodReadParser
 {
@@ -13,19 +13,20 @@ class GoodReadParser
     ) {
     }
 
-    public function parse(string $filepath): Book
+    public function parse(string $filepath): SaveBookParams
     {
-        $book = new Book();
-        $book->id = (string )Uuid::v4();
-        $book->openlibraryId = "";
-        $book->serieName = "";
-        $book->serieNumber = 0;
+        $dom = $this->readFile($filepath);
+        $json = $this->extractJson($dom);
 
-        $book = $this->extractJson($filepath, $book);
-        $book = $this->getEditionDetails($filepath, $book);
-        $book = $this->getAuthors($filepath, $book);
-
-        return $book;
+        return new SaveBookParams(
+            $this->getTitle($json),
+            $this->getIsbn13($json),
+            $this->getIsbn10($dom),
+            $this->getPublisher($dom),
+            $this->getPublishDate($dom),
+            $this->getNumberOfPages($json),
+            $this->getAuthors($dom),
+        );
     }
 
     private function readFile(string $filepath): \DOMDocument
@@ -37,40 +38,29 @@ class GoodReadParser
         return $doc;
     }
 
-    private function extractJson(string $filepath, Book $book): Book
+    private function extractJson(\DOMDocument $doc): \stdClass
     {
-        $doc = $this->readFile($filepath);
         $xpath = new \DOMXPath($doc);
         $items = $xpath->query("//script[@type='application/ld+json']");
-        $json = json_decode($items->item(0)->nodeValue);
-        
-        $book->title = html_entity_decode($json->name, ENT_QUOTES | ENT_HTML5);
-        $book->isbn13 = $this->getIsbn($json);
-        $book->numberOfPages = $this->getNumberOfPages($json);
 
-        return $book;
+        return json_decode($items->item(0)->nodeValue);
+
+
+        /*
+        $numberOfPages = $this->getNumberOfPages($json);
+
+        return [$title, $isbn, $numberP]$book;*/
     }
 
-    private function getEditionDetails(string $filepath, Book $book): Book
+    private function getTitle(\stdClass $json): string
     {
-        $doc = $this->readFile($filepath);
-        $xpath = new \DOMXPath($doc);
-
-        $book->isbn10 = $this->getIsbn10($xpath);
-        [$publishDate, $publisher] = $this->formatPublisher($xpath->query("//dl/div[@class='DescListItem'][2]/dd")->item(0)->nodeValue);
-
-        $book->publisher = $publisher;
-        $book->publishDate = $publishDate;
-
-        return $book;
+        return html_entity_decode($json->name, ENT_QUOTES | ENT_HTML5);
     }
 
-    private function getAuthors(string $filepath, Book $book): Book
+    private function getAuthors(\DOMDocument $doc): array
     {
-        $doc = $this->readFile($filepath);
         $xpath = new \DOMXPath($doc);
 
-        $authors = [];
         $contributors = $xpath->query("//span/a[@class='ContributorLink']");
         
         foreach ($contributors as $contributor) {
@@ -78,22 +68,39 @@ class GoodReadParser
 
             if (!count($role)) {
                 $goodreadId = $this->getGoodReadIdFromLink($contributor->getAttribute("href"));
-                $book->authors[] = $this->authorProvider->getByGoodreadId($goodreadId)->id;
+                $authors[] = $this->authorProvider->getByGoodreadId($goodreadId)->id;
             }
         }
 
-        return $book;
+        return $authors;
     }
 
-    private function formatPublisher(string $publishInfo): array
+    private function getPublisher(\DomDocument $doc): string
     {
-        preg_match("/(.*\d{4}) by (.*)/", $publishInfo, $matches);
+        $xpath = new \DOMXPath($doc);
+        $publishString = $xpath->query("//dl/div[@class='DescListItem'][2]/dd")->item(0)->nodeValue;
 
-        if (count($matches)) {
-            return [$matches[1], $matches[2]];
+        preg_match("/(.*\d{4}) by (.*)/", $publishString, $matches);
+
+        if (isset($matches[2])) {
+            return $matches[2];
         }
 
-        return ['', ''];
+        return "";
+    }
+
+    private function getPublishDate(\DomDocument $doc): string
+    {
+        $xpath = new \DOMXPath($doc);
+        $publishString = $xpath->query("//dl/div[@class='DescListItem'][2]/dd")->item(0)->nodeValue;
+
+        preg_match("/(.*\d{4}) by (.*)/", $publishString, $matches);
+
+        if (isset($matches[1])) {
+            return $matches[1];
+        }
+
+        return "";
     }
 
     private function getGoodReadIdFromLink(string $href): string
@@ -103,7 +110,7 @@ class GoodReadParser
         return $matches[1];
     }
 
-    private function getIsbn(\stdClass $json): string
+    private function getIsbn13(\stdClass $json): string
     {
         if (isset($json->isbn)) {
             return (string) $json->isbn;
@@ -112,8 +119,9 @@ class GoodReadParser
         return "";
     }
 
-    private function getIsbn10(\DOMXPath $xpath): string
+    private function getIsbn10(\DOMDocument $doc): string
     {
+        $xpath = new \DOMXPath($doc);
         $editionDetails = $xpath->query("//div[@class='EditionDetails']")->item(0);
         $node = $xpath->query("//span[@data-testid='asin']", $editionDetails)->item(0);
 

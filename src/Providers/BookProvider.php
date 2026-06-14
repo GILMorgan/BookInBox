@@ -6,6 +6,7 @@ use App\Repository\BookRepository;
 use App\Services\Books\BookSerializer;
 use App\Domain\Books\DVO\Book;
 use App\Domain\Books\Contract\BookProviderInterface;
+use App\Domain\Books\Contract\Exception\BookNotFoundException;
 
 class BookProvider implements BookProviderInterface
 {
@@ -50,5 +51,14 @@ class BookProvider implements BookProviderInterface
             },
             $this->bookRepository->findPagined($page)
         );
+    }
+
+    public function getByIsbn13(string $isbn13): Book
+    {
+        if ($book = $this->bookRepository->findOneByIsbn13($isbn13)) {
+            return $this->bookSerializer->toDto($book);        
+        }
+
+        throw new BookNotFoundException();
     }
 }
