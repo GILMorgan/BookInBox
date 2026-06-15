@@ -2,6 +2,8 @@
 
 namespace App\Controller\Books;
 
+use App\Domain\Books\Controller\GetBookPage;
+use App\Domain\Books\DTO\GetBookPageParams;
 use App\Providers\BookProvider;
 use App\Providers\MyBookProvider;
 use App\Services\Books\BookJson;
@@ -17,6 +19,7 @@ final class BooksController extends AbstractController
         private readonly BookProvider $bookProvider,
         private readonly MyBookProvider $myBookProvider,
         private readonly BookJson $bookJson,
+        private readonly GetBookPage $getBookPage,
     ) {
     }
 
@@ -35,15 +38,12 @@ final class BooksController extends AbstractController
     #[Route('/api/books', name: 'app_api_books')]
     public function getBooks(Request $request): Response
     {
-        $page = (int) $request->query->get('page', 1);
-        $books = $this->bookProvider->getPage($page);
-        $nbBooks = $this->bookProvider->getNbOfBooks();
-
         return new JsonResponse(
-            [
-                "books" => $books,
-                "nbBooks" => $nbBooks,
-            ]
+            $this->getBookPage->getBookPage(
+                new GetBookPageParams(
+                    (int) $request->query->get('page', 1)
+                )
+            )
         );
     }
 
