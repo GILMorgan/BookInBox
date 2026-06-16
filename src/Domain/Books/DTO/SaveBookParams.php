@@ -12,6 +12,8 @@ final class SaveBookParams
         public readonly string $publishDate,
         public readonly int $numberOfPages,
         public readonly array $authors,
+        public readonly string $serieName = '',
+        public readonly float $serieNumber = 0
     ) {
     }
 }

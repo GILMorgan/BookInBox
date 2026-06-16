@@ -2,27 +2,26 @@
 
 namespace App\Services\Books;
 
-use App\Domain\Books\DVO\Book;
-use Symfony\Component\Uid\Uuid;
+use App\Domain\Books\DTO\SaveBookParams;
+use Symfony\Component\HttpFoundation\Request;
 
 final class BookJson
 {
-    public function toDto(string $jsonString): Book
+    public function toDto(Request $request): SaveBookParams
     {
-        $json = json_decode($jsonString);
+        $json = json_decode($request->getContent());
 
-        $book = new Book();
-        $book->id = (string) Uuid::v4();
-        $book->title = $json->title;
-        $book->openlibraryId = "";
-        $book->serieName = $json->serieName;
-        $book->serieNumber = (float) $json->serieNumber;
-        $book->publishDate = $json->publishDate;
-        $book->publisher = $json->publisher;
-        $book->isbn10 = $json->isbn10;
-        $book->isbn13 = $json->isbn13;
-        $book->authors = explode(", ", $json->authors);
-        $book->numberOfPages = $json->nbPages;
+        $book = new SaveBookParams(
+            $json->title,
+            $json->isbn13,
+            $json->isbn10,
+            $json->publisher,
+            $json->publishDate,
+            $json->nbPages,
+            explode(", ", $json->authors),
+            $json->serieName,
+            $json->serieNumber,
+        );
 
         return $book;
     }

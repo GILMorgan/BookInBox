@@ -53,9 +53,9 @@ final class AddBook
         $book->isbn10 = $params->isbn10;
         $book->isbn13 = $params->isbn13;
         $book->numberOfPages = $params->numberOfPages;
+        $book->serieName = $params->serieName; 
+        $book->serieNumber = $params->serieNumber;
 
-        $book->serieName = ""; 
-        $book->serieNumber = 0;
         $book->openlibraryId = "";
 
         return $book;
