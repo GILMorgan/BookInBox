@@ -11,4 +11,5 @@ interface BookProviderInterface
     public function getNbOfBooks(): int;
     public function getNbOfPages(): int;
     public function getPage(int $page): array;
+    public function getByIsbn13(string $isbn13): Book;
 }

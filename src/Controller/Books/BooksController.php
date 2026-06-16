@@ -2,7 +2,9 @@
 
 namespace App\Controller\Books;
 
-use App\Providers\BookProvider;
+use App\Domain\Books\Controller\AddBook;
+use App\Domain\Books\Controller\GetBookPage;
+use App\Domain\Books\DTO\GetBookPageParams;
 use App\Providers\MyBookProvider;
 use App\Services\Books\BookJson;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,9 +16,10 @@ use Symfony\Component\HttpFoundation\Request;
 final class BooksController extends AbstractController
 {
     public function __construct(
-        private readonly BookProvider $bookProvider,
         private readonly MyBookProvider $myBookProvider,
-        private readonly BookJson $bookJson,
+        private readonly GetBookPage $getBookPage,
+        private readonly AddBook $addBook,
+        private readonly BookJson $bookJson
     ) {
     }
 
@@ -35,15 +38,12 @@ final class BooksController extends AbstractController
     #[Route('/api/books', name: 'app_api_books')]
     public function getBooks(Request $request): Response
     {
-        $page = (int) $request->query->get('page', 1);
-        $books = $this->bookProvider->getPage($page);
-        $nbBooks = $this->bookProvider->getNbOfBooks();
-
         return new JsonResponse(
-            [
-                "books" => $books,
-                "nbBooks" => $nbBooks,
-            ]
+            $this->getBookPage->getBookPage(
+                new GetBookPageParams(
+                    (int) $request->query->get('page', 1)
+                )
+            )
         );
     }
 
@@ -71,10 +71,10 @@ final class BooksController extends AbstractController
     #[Route('/api/books/add', name: 'app_api_books_add')]
     public function addBook(Request $request): Response
     {
-        $book = $this->bookJson->toDto($request->getContent());
-
-        $this->bookProvider->save($book);
-
-        return new JsonResponse();
+        return new JsonResponse(
+            $this->addBook->addBook(
+                $this->bookJson->toDto($request)
+            )
+        );
     }
 }

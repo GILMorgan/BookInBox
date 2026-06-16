@@ -3,6 +3,7 @@
 namespace tests\Services\Books;
 
 use App\Services\Books\BookJson;
+use Symfony\Component\HttpFoundation\Request;
 use PHPUnit\Framework\TestCase;
 use Mockery;
 
@@ -12,11 +13,13 @@ class BookJsonTest extends TestCase
     {
         $rawJson = '{"title":"title", "serieName":"serie", "serieNumber":"1.5", "publishDate": "12 september 1981", "publisher": "Pingouin Ed", "isbn10": "1542-457", "isbn13": "1545-BE-55555", "authors":"75e9de92-a646-4a9e-8533-5a89b2b3db6e, 47c1ea7b-63f3-49ed-a471-d47800db2b9b", "nbPages": 120}';
 
+        $request = Mockery::mock(Request::class);
+        $request->shouldReceive("getContent")->andReturn($rawJson);
+
         $bookJson = new BookJson();
 
-        $book = $bookJson->toDto($rawJson);
+        $book = $bookJson->toDto($request);
 
-        $this->assertNotNull($book->id);
         $this->assertSame('title', $book->title);
         $this->assertSame('serie', $book->serieName);
         $this->assertSame(1.5, $book->serieNumber);
